@@ -17,3 +17,10 @@ spring:
   thymeleaf:
     mode: HTML
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /doc-api.html
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: on
