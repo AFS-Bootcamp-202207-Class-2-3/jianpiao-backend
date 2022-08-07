@@ -1,18 +1,18 @@
-create table public.tb_action
+create table if not exists public.tb_action
 (
     id   varchar(255) primary key not null,
     code varchar(255),
     name varchar(255)
 );
 
-create table public.tb_module
+create table if not exists public.tb_module
 (
     id   varchar(255) primary key not null,
     code varchar(255),
     name varchar(255)
 );
 
-create table public.tb_permission
+create table if not exists public.tb_permission
 (
     id        varchar(255) primary key not null,
     name      varchar(255),
@@ -20,13 +20,13 @@ create table public.tb_permission
     module_id varchar(255)
 );
 
-create table public.tb_role
+create table if not exists public.tb_role
 (
     id        varchar(255) primary key not null,
     role_name varchar(255)
 );
 
-create table public.tb_user
+create table if not exists public.tb_user
 (
     id       varchar(255) primary key not null,
     email    varchar(255),
@@ -39,14 +39,14 @@ create table public.tb_user
     username varchar(255)
 );
 
-create table public.user_role
+create table if not exists public.user_role
 (
     user_id varchar(255) not null,
     role_id varchar(255) not null,
     primary key (user_id, role_id)
 );
 
-create table public.role_permission
+create table if not exists public.role_permission
 (
     role_id       varchar(255) not null,
     permission_id varchar(255) not null,
