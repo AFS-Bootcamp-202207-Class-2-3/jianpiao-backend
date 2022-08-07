@@ -19,4 +19,8 @@ public class Action {
     private String name;
     @OneToOne(mappedBy = "action")
     private Permission permission;
+
+    public String getCode() {
+        return code;
+    }
 }

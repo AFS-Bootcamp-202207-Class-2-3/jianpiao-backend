@@ -19,4 +19,8 @@ public class Module {
     private String name;
     @OneToOne(mappedBy = "module")
     private Permission permission;
+
+    public String getCode() {
+        return code;
+    }
 }

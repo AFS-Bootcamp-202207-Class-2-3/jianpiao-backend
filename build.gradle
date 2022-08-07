@@ -21,6 +21,8 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 	implementation 'org.projectlombok:lombok'
 	implementation 'org.apache.httpcomponents:httpcore:4.4.13'
+	implementation 'cn.dev33:sa-token-spring-boot-starter:1.30.0'
+	implementation 'cn.hutool:hutool-all:5.8.4'
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
