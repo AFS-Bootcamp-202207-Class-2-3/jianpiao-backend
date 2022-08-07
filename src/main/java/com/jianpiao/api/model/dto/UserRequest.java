@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
-    private Integer id;
+    private String id;
     private String username;
     private String password;
     private String nickname;
@@ -29,11 +29,11 @@ public class UserRequest {
     private String email;
     private Set<Role> roles;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

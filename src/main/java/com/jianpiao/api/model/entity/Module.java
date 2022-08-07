@@ -13,8 +13,7 @@ import javax.persistence.*;
 @Table(name = "tb_module")
 public class Module {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
     private String code;
     private String name;
     @OneToOne(mappedBy = "module")

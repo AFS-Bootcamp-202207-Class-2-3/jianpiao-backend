@@ -12,8 +12,7 @@ import java.util.Set;
 @Table(name = "tb_role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")

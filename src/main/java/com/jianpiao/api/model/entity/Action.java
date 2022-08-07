@@ -13,8 +13,7 @@ import javax.persistence.*;
 @Table(name = "tb_action")
 public class Action {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
     private String code;
     private String name;
     @OneToOne(mappedBy = "action")

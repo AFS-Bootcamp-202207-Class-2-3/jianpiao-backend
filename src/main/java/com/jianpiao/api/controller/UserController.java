@@ -26,14 +26,14 @@ public class UserController {
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
-        userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        return Result.ok();
+        User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        return Result.ok().put("user", userMapper.toResponse(user));
     }
 
     @GetMapping("/{userId}")
     @SaCheckLogin
     @SaCheckPermission(value = {"USER:SELECT"}, mode = SaMode.OR)
-    public Result getUserById(@PathVariable Integer userId) {
+    public Result getUserById(@PathVariable String userId) {
         User user = userService.getUserById(userId);
         return Result.ok().put("user", userMapper.toResponse(user));
     }

@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    private Integer id;
+    private String id;
     private String username;
     private String nickname;
     private String photo;
@@ -24,11 +24,11 @@ public class UserResponse {
     private String tel;
     private String email;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

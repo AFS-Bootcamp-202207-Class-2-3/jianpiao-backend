@@ -31,7 +31,7 @@ public class SaCustomizePermissionAuthentication implements StpInterface {
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        User user = userRepository.findById(Integer.parseInt(loginId.toString())).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(loginId.toString()).orElseThrow(UserNotFoundException::new);
         List<String> permissions = user.getRoles().stream()
                 .map(Role::getPermissions)
                 .flatMap(List::stream)
@@ -46,7 +46,7 @@ public class SaCustomizePermissionAuthentication implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        User user = userRepository.findById(Integer.parseInt(loginId.toString())).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(loginId.toString()).orElseThrow(UserNotFoundException::new);
         return user.getRoles().stream()
                 .map(Role::getRoleName)
                 .collect(Collectors.toList());

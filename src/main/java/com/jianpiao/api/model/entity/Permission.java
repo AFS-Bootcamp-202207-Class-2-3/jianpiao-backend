@@ -13,8 +13,7 @@ import java.util.Set;
 @Table(name = "tb_permission")
 public class Permission {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
     private String name;
 
     @OneToOne(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)

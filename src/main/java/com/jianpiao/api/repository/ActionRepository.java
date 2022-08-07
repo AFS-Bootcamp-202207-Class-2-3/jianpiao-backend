@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * @Date: 2022/8/6 17:16
  */
 @Repository
-public interface ActionRepository extends JpaRepository<Action, Integer> {
+public interface ActionRepository extends JpaRepository<Action, String> {
 
 }

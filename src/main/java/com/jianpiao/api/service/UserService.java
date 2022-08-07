@@ -29,7 +29,7 @@ public class UserService {
         return loginUser;
     }
 
-    public User getUserById(Integer id) {
+    public User getUserById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }

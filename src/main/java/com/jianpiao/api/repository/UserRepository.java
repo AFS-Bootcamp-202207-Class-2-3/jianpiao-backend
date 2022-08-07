@@ -11,6 +11,6 @@ import java.util.List;
  * @Date: 2022/8/6 17:16
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
     public User findByUsernameAndPassword(String username, String password);
 }
