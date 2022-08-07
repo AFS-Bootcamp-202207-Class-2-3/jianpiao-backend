@@ -1,6 +1,7 @@
 package com.jianpiao.api.service;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.jianpiao.api.exception.UserNotFoundException;
 import com.jianpiao.api.exception.WrongLoginInfoException;
 import com.jianpiao.api.model.entity.User;
 import com.jianpiao.api.repository.UserRepository;
@@ -26,5 +27,10 @@ public class UserService {
             throw new WrongLoginInfoException();
         }
         return loginUser;
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
     }
 }
