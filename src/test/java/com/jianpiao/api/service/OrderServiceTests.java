@@ -56,4 +56,18 @@ class OrderServiceTests {
         //then
         MatcherAssert.assertThat(actual, Matchers.equalTo(order));
     }
+
+    @Test
+    void should_order_when_insert_order_given_user_id_and_film_id() {
+        //given
+        String orderId = "1";
+        Order order = new Order(orderId, null, null);
+        BDDMockito.given(orderRepository.save(order)).willReturn(order);
+
+        //when
+        Order order1 = orderService.saveOrder(order);
+
+        //then
+        MatcherAssert.assertThat(order1.getId(), Matchers.not(orderId));
+    }
 }
