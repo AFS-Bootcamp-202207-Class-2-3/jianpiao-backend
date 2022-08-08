@@ -38,4 +38,26 @@ class UserServiceTest {
             userService.register(user);
         });
     }
+
+
+    @Test
+    void should_return_WrongRegisterInfoException_with_error_message_username_already_exists_when_register_not_have_enough_info_call_api_given_service() {
+        // given
+        User user = new User();
+        user.setUsername("username");
+
+        User register = new User();
+        register.setUsername("username");
+        register.setPassword("password");
+
+
+        // when
+        given(mockUserRepository.findByUsername(any())).willReturn(user);
+
+        // then
+        String message = assertThrows(WrongRegisterInfoException.class, () -> {
+            userService.register(register);
+        }).getMessage();
+        assertEquals("username already exists", message);
+    }
 }
