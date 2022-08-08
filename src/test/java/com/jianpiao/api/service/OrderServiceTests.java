@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,5 +41,19 @@ class OrderServiceTests {
 
         //then
         MatcherAssert.assertThat(orders, Matchers.hasSize(1));
+    }
+
+    @Test
+    void should_order_when_get_order_by_order_id_given_order_id() {
+        //given
+        String orderId = UUID.randomUUID().toString();
+        Order order = new Order(orderId, null, null);
+        BDDMockito.given(orderRepository.findById(orderId)).willReturn(Optional.of(order));
+
+        //when
+        Order actual = orderService.findById(orderId);
+
+        //then
+        MatcherAssert.assertThat(actual, Matchers.equalTo(order));
     }
 }

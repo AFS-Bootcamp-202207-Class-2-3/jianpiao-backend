@@ -1,5 +1,6 @@
 package com.jianpiao.api.service;
 
+import com.jianpiao.api.exception.OrderNotFoundException;
 import com.jianpiao.api.model.entity.Order;
 import com.jianpiao.api.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,9 @@ public class OrderService {
 
     public List<Order> findAllOrdersByUserId(String userId) {
         return orderRepository.findAllByUserId(userId);
+    }
+
+    public Order findById(String id) {
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 }

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
-    private Integer userId;
-    private Integer filmId;
+    private String userId;
+    private String filmId;
 }
