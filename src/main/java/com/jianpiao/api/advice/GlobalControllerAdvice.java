@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.jianpiao.api.exception.UserNotFoundException;
 import com.jianpiao.api.exception.WrongLoginInfoException;
+import com.jianpiao.api.exception.WrongRegisterInfoException;
 import com.jianpiao.api.model.dto.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,4 +42,9 @@ public class GlobalControllerAdvice {
         return Result.error(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+    @ExceptionHandler({WrongRegisterInfoException.class})
+    public Result handleBusinessException(Exception exception) {
+        return Result.error(HttpStatus.PRECONDITION_FAILED.value(), exception.getMessage());
+    }
 }

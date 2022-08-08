@@ -1,7 +1,10 @@
 package com.jianpiao.api.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,20 +17,13 @@ import java.util.Set;
 public class Permission {
     @Id
     private String id;
-    private String name;
+    private String code;
+    private String actionId;
+    private String moduleId;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)
-    @JoinColumn(name = "action_id", referencedColumnName = "id")
+    @Transient
     private Action action;
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)
-    @JoinColumn(name = "module_id", referencedColumnName = "id")
+    @Transient
     private Module module;
-
-    @ManyToMany(mappedBy = "permissions")
-    private Set<Role> roles;
-
-    public String getCode() {
-        return module.getCode() + ":" + action.getCode();
-    }
 }
