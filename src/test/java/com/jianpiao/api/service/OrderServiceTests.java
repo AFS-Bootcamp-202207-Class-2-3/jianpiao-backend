@@ -3,7 +3,6 @@ package com.jianpiao.api.service;
 
 import com.jianpiao.api.model.entity.Order;
 import com.jianpiao.api.repository.OrderRepository;
-import com.jianpiao.api.service.OrderService;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -13,12 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTests {
+class OrderServiceTests {
 
     @InjectMocks
     OrderService orderService;
@@ -34,7 +33,7 @@ public class OrderServiceTests {
         String userId = "1";
         Order order = new Order(UUID.randomUUID().toString(), userId, null);
 
-        BDDMockito.given(orderRepository.findAllByUserId(userId)).willReturn(Arrays.asList(order));
+        BDDMockito.given(orderRepository.findAllByUserId(userId)).willReturn(Collections.singletonList(order));
 
         //when
         List<Order> orders = orderService.findAllOrdersByUserId(userId);
