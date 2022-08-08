@@ -1,15 +1,23 @@
 package com.jianpiao.api.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "order", schema = "public")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    private String userId;
+
     private String ticket;
 }
