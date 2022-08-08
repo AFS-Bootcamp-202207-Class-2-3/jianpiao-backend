@@ -1,0 +1,1 @@
+ALTER TABLE public.tb_order ADD CONSTRAINT tb_order_pk PRIMARY KEY (id);

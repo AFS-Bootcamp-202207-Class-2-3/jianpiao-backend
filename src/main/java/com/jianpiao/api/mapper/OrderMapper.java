@@ -3,6 +3,7 @@ package com.jianpiao.api.mapper;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.jianpiao.api.model.dto.OrderRequest;
 import com.jianpiao.api.model.dto.OrderResponse;
 import com.jianpiao.api.model.entity.Order;
 import org.springframework.stereotype.Component;
@@ -24,5 +25,11 @@ public class OrderMapper {
         OrderResponse orderResponse = new OrderResponse();
         BeanUtil.copyProperties(order, orderResponse, CopyOptions.create().setIgnoreNullValue(true));
         return orderResponse;
+    }
+
+    public Order toEntity(OrderRequest orderRequest) {
+        Order order = new Order();
+        BeanUtil.copyProperties(orderRequest, order, CopyOptions.create().setIgnoreNullValue(true));
+        return order;
     }
 }
