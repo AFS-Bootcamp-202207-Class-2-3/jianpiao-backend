@@ -5,18 +5,11 @@ INSERT INTO "tb_action" ("id", "code", "name") VALUES ('4', 'SELECT', '查询');
 
 INSERT INTO "tb_module" ("id", "code", "name") VALUES ('1', 'USER', '用户');
 
-INSERT INTO "tb_permission" ("id", "name", "action_id", "module_id") VALUES ('1', 'USER:INSERT', 1, 1);
-INSERT INTO "tb_permission" ("id", "name", "action_id", "module_id") VALUES ('2', 'USER:DELETE', 2, 1);
-INSERT INTO "tb_permission" ("id", "name", "action_id", "module_id") VALUES ('3', 'USER:UPDATE', 3, 1);
-INSERT INTO "tb_permission" ("id", "name", "action_id", "module_id") VALUES ('4', 'USER:SELECT', 4, 1);
+INSERT INTO "tb_permission" ("id", "code", "action_id", "module_id") VALUES ('p1', 'USER:INSERT', 1, 1);
+INSERT INTO "tb_permission" ("id", "code", "action_id", "module_id") VALUES ('p2', 'USER:DELETE', 2, 1);
+INSERT INTO "tb_permission" ("id", "code", "action_id", "module_id") VALUES ('p3', 'USER:UPDATE', 3, 1);
+INSERT INTO "tb_permission" ("id", "code", "action_id", "module_id") VALUES ('p4', 'USER:SELECT', 4, 1);
 
-INSERT INTO "tb_role" ("id", "role_name") VALUES ('1', 'admin');
+INSERT INTO "tb_role" ("id", "role_name", "permission_ids") VALUES ('1', 'admin', '[p1,p2,p3,p4]');
 
-INSERT INTO "tb_user" ("id", "email", "gender", "name", "nickname", "password", "photo", "tel", "username") VALUES ('1', '123@qq.com', '男', 'BaBy', 'baby', '123123', NULL, '11111111111', 'baby');
-
-INSERT INTO "role_permission" ("role_id", "permission_id") VALUES ('1', '1');
-INSERT INTO "role_permission" ("role_id", "permission_id") VALUES ('1', '2');
-INSERT INTO "role_permission" ("role_id", "permission_id") VALUES ('1', '3');
-INSERT INTO "role_permission" ("role_id", "permission_id") VALUES ('1', '4');
-
-INSERT INTO "user_role" ("user_id", "role_id") VALUES ('1', '1');
+INSERT INTO "tb_user" ("id", "email", "gender", "name", "nickname", "password", "photo", "tel", "username", "role_ids") VALUES ('1', '123@qq.com', '男', 'BaBy', 'baby', '123123', NULL, '11111111111', 'baby', '[1]');

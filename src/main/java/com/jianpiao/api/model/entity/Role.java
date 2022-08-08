@@ -1,5 +1,7 @@
 package com.jianpiao.api.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,22 +16,8 @@ public class Role {
     @Id
     private String id;
     private String roleName;
+    private String permissionIds;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)
-    @JoinTable(name = "role_permission",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")}
-    )
-    private Set<Permission> permissions;
-
-    public List<Permission> getPermissions(){
-        return new ArrayList<>(permissions);
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
+    @Transient
+    private List<Permission> permissions;
 }

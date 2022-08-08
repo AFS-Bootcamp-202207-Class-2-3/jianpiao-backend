@@ -15,7 +15,7 @@ create table if not exists public.tb_module
 create table if not exists public.tb_permission
 (
     id        varchar(255) primary key not null,
-    name      varchar(255),
+    code      varchar(255),
     action_id varchar(255),
     module_id varchar(255)
 );
@@ -23,7 +23,8 @@ create table if not exists public.tb_permission
 create table if not exists public.tb_role
 (
     id        varchar(255) primary key not null,
-    role_name varchar(255)
+    role_name varchar(255),
+    permission_ids varchar(255)
 );
 
 create table if not exists public.tb_user
@@ -36,19 +37,6 @@ create table if not exists public.tb_user
     password varchar(255),
     photo    varchar(255),
     tel      varchar(255),
-    username varchar(255)
-);
-
-create table if not exists public.user_role
-(
-    user_id varchar(255) not null,
-    role_id varchar(255) not null,
-    primary key (user_id, role_id)
-);
-
-create table if not exists public.role_permission
-(
-    role_id       varchar(255) not null,
-    permission_id varchar(255) not null,
-    primary key (role_id, permission_id)
+    username varchar(255),
+    role_ids varchar(255)
 );
