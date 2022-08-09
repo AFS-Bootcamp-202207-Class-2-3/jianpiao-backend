@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class SessionResponse {
 
     private String cinemaId;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
     private String startTime;

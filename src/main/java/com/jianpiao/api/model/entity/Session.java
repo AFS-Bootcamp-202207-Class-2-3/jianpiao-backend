@@ -1,5 +1,6 @@
 package com.jianpiao.api.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jianpiao.api.model.entity.converter.StringToTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +28,6 @@ public class Session {
     @Column(name = "cinema_id")
     private String cinemaId;
 
-//    @Convert(
-//            converter = StringToDateConverter.class
-//    )
     private Date date;
 
     @Column(name = "start_time")
