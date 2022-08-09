@@ -57,7 +57,9 @@ public class UserService {
         if(Objects.nonNull(userRepository.findByUsername(user.getUsername()))) {
             throw new WrongRegisterInfoException("username already exists");
         }
-        return userRepository.save(user);
+        User savedUser = userRepository.save (user) ;
+        StpUtil.login(savedUser.getId());
+        return savedUser;
     }
 
     public List<Role> getRolesByUser(String id) {
