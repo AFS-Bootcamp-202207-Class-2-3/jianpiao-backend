@@ -1,7 +1,9 @@
 package com.jianpiao.api.service;
 
 
+import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Order;
+import com.jianpiao.api.repository.FilmRepository;
 import com.jianpiao.api.repository.OrderRepository;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -25,6 +27,9 @@ class OrderServiceTests {
 
     @Mock
     OrderRepository orderRepository;
+
+    @Mock
+    FilmRepository filmRepository;
 
 
     @Test
@@ -63,9 +68,10 @@ class OrderServiceTests {
         String orderId = "1";
         Order order = new Order(orderId, null, null);
         BDDMockito.given(orderRepository.save(order)).willReturn(order);
+        BDDMockito.given(filmRepository.findById("1")).willReturn(Optional.of(new Film()));
 
         //when
-        Order order1 = orderService.saveOrder(order);
+        Order order1 = orderService.saveOrder(order, "1");
 
         //then
         MatcherAssert.assertThat(order1.getId(), Matchers.not(orderId));
