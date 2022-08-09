@@ -29,6 +29,7 @@ public class SessionService {
     public Map<Date, List<Session>> findByCinemaIdAndFilmId(String cinemaId, String filmId) {
 
         List<Session> sessions = sessionRepository.findByCinemaIdAndFilmId(filmId, cinemaId, getCurDate(), getCurTime());
+
         return sessions.stream()
                 .collect(Collectors.groupingBy(Session::getDate, TreeMap::new, Collectors.toList()));
     }
