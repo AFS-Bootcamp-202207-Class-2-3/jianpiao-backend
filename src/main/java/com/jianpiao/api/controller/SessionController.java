@@ -28,9 +28,11 @@ public class SessionController {
     }
 
     @GetMapping
-    public Result getSessionsByCinemaIdAndFilmId(@RequestParam String cinemaId,
-                                                 @RequestParam String filmId) {
+    public Result getSessionsByCinemaIdAndFilmId(@RequestParam("cinemaId") String cinemaId,
+                                                 @RequestParam("filmId") String filmId) {
+        System.out.println(cinemaId + "===" + filmId);
         Map<Date, List<Session>> sessions = sessionService.findByCinemaIdAndFilmId(cinemaId, filmId);
+        System.out.println(sessions);
         return Result.ok().put("data", sessionMapper.toResponse(sessions));
     }
 
