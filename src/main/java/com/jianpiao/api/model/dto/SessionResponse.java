@@ -1,11 +1,11 @@
 package com.jianpiao.api.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.sql.Date;
 
 @Data
@@ -21,6 +21,7 @@ public class SessionResponse {
 
     private String cinemaId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     private String startTime;
@@ -28,8 +29,6 @@ public class SessionResponse {
     private String endTime;
 
     private Double price;
-
-    private String seat;
 
     private String site;
 }
