@@ -6,6 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.mapper.OrderMapper;
 import com.jianpiao.api.model.dto.OrderRequest;
 import com.jianpiao.api.model.dto.OrderResponse;
+import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Order;
 import com.jianpiao.api.service.FilmService;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,12 +31,12 @@ public class OrderController {
     private FilmService filmService;
 
     @GetMapping
-    public List<OrderResponse> getAllOrdersByUserId() {
-        return orderMapper.toResponse(orderService.findAllOrdersByUserId(StpUtil.getLoginId().toString()));
+    public Result getAllOrdersByUserId() {
+        return Result.ok().put("data", orderMapper.toResponse(orderService.findAllOrdersByUserId(StpUtil.getLoginId().toString())));
     }
 
     @PostMapping
-    public OrderResponse insertOrder(@RequestBody OrderRequest orderRequest) {
+    public Result insertOrder(@RequestBody OrderRequest orderRequest) {
         Order order = orderMapper.toEntity(orderRequest);
         Film film = filmService.findFilmById(orderRequest.getFilmId());
 
@@ -47,12 +47,12 @@ public class OrderController {
         String json = JSONUtil.parse(map).toString();
         order.setTicket(json);
 
-        return orderMapper.toResponse(orderService.saveOrder(order));
+        return Result.ok().put("data", orderMapper.toResponse(orderService.saveOrder(order)));
     }
 
     @GetMapping("/{id}")
-    public OrderResponse getOrderByOrderId(@PathVariable("id") String id) {
-        return orderMapper.toResponse(orderService.findById(id));
+    public Result getOrderByOrderId(@PathVariable("id") String id) {
+        return Result.ok().put("data", orderMapper.toResponse(orderService.findById(id)));
     }
 
 }
