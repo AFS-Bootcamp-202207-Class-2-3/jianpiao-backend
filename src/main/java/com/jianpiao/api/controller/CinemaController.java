@@ -1,12 +1,11 @@
 package com.jianpiao.api.controller;
 
 import com.jianpiao.api.mapper.CinemaMapper;
+import com.jianpiao.api.model.dto.CinemaFilmRequest;
 import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.service.CinemaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.jianpiao.api.service.FilmService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cinemas")
@@ -14,10 +13,13 @@ public class CinemaController {
 
     private final CinemaService cinemaService;
 
+    private final FilmService filmService;
+
     private final CinemaMapper cinemaMapper;
 
-    public CinemaController(CinemaService cinemaService, CinemaMapper cinemaMapper) {
+    public CinemaController(CinemaService cinemaService, FilmService filmService, CinemaMapper cinemaMapper) {
         this.cinemaService = cinemaService;
+        this.filmService = filmService;
         this.cinemaMapper = cinemaMapper;
     }
 
@@ -31,4 +33,17 @@ public class CinemaController {
         return Result.ok().put("data", cinemaMapper.toResponse(cinemaService.getCinemaById(id)));
     }
 
+    @GetMapping("/{cinemaId}/showingFilms")
+    public Result getShowingFilmByCinemaId(@PathVariable String cinemaId) {
+        return Result.ok().put("data", filmService.getShowingFilmsByCinemaId(cinemaId));
+    }
+
+    @PostMapping("/saveRelatedFilmAndCinema")
+    public Result saveRelatedFilmAndCinema(@RequestBody CinemaFilmRequest cinemaFilmRequest) {
+        return Result.ok()
+                .put("data", cinemaService.saveRelatedFilmAndCinema(
+                        cinemaFilmRequest.getFilmId(),
+                        cinemaFilmRequest.getCinemaId(),
+                        cinemaFilmRequest.getStatus()));
+    }
 }
