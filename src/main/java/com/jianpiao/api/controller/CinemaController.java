@@ -3,10 +3,7 @@ package com.jianpiao.api.controller;
 import com.jianpiao.api.mapper.CinemaMapper;
 import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.service.CinemaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cinemas")
@@ -22,8 +19,8 @@ public class CinemaController {
     }
 
     @GetMapping
-    public Result getAllCinemas() {
-        return Result.ok().put("data", cinemaMapper.toResponses(cinemaService.getAllCinemas()));
+    public Result getAllCinemas(@RequestParam(value = "filmId", required = false) String filmId) {
+        return Result.ok().put("data", cinemaMapper.toResponses(cinemaService.getAllCinemas(filmId)));
     }
 
     @GetMapping("/{id}")
