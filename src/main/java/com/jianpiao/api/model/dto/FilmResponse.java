@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class FilmResponse {
 
+    private String id;
     private String filmName;
 
     private String introduction;
@@ -24,7 +25,8 @@ public class FilmResponse {
     public FilmResponse() {
     }
 
-    public FilmResponse(String filmName, String introduction, Date releasedTime, Integer duration, String director, String leadingActor, String posterUrl, Double score) {
+    public FilmResponse(String id, String filmName, String introduction, Date releasedTime, Integer duration, String director, String leadingActor, String posterUrl, Double score) {
+        this.id = id;
         this.filmName = filmName;
         this.introduction = introduction;
         this.releasedTime = releasedTime;
@@ -33,6 +35,14 @@ public class FilmResponse {
         this.leadingActor = leadingActor;
         this.posterUrl = posterUrl;
         this.score = score;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFilmName() {
