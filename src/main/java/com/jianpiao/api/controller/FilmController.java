@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/film")
+@RequestMapping("/films")
 public class FilmController {
 
 
@@ -44,6 +44,6 @@ public class FilmController {
         Film film = filmMapper.toEntity(filmRequest);
         film.setId(String.valueOf(UUID.randomUUID()));
         Film newFilm = filmService.addFilm(film);
-        return Result.ok().put("newFilm: ", newFilm);
+        return Result.ok().put("film: ", newFilm);
     }
 }
