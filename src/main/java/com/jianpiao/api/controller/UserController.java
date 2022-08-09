@@ -57,6 +57,7 @@ public class UserController {
 
     @GetMapping("/{userId}/orders")
     public Result getAllOrdersByUserId(@PathVariable String userId) {
-        return Result.ok().put("data", orderMapper.toResponse(orderService.findAllOrdersByUserId(StpUtil.getLoginId().toString())));
+        //todo
+        return Result.ok().put("data", orderMapper.toResponse(orderService.findAllOrdersByUserId(userId)));
     }
 }
