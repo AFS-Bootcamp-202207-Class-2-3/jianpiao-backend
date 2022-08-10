@@ -27,4 +27,6 @@ public class Order {
 
     @Column(name = "create_time")
     private Date createTime;
+
+    private String code;
 }

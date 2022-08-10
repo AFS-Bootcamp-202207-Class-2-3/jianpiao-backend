@@ -33,7 +33,8 @@ public class FindSessionSpecification implements Specification<Session> {
         if (Objects.nonNull(cinemaId)) {
             Path<Cinema> cinema = root.get("cinema");
             predicates.add(criteriaBuilder.equal(cinema.get("id"), cinemaId));
-        } else if (Objects.nonNull(filmId)) {
+        }
+        if (Objects.nonNull(filmId)) {
             Path<String> fid = root.get("filmId");
             predicates.add(criteriaBuilder.equal(fid, filmId));
         }

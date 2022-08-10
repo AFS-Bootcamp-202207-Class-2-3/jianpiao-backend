@@ -71,6 +71,8 @@ public class OrderService {
         order.setUserId(StpUtil.getLoginId().toString());
         order.setTicket(JSONUtil.parse(map).toString());
         order.setCreateTime(getCurDate());
+        order.setCode(String.valueOf(order.getCreateTime().getTime()));
+
 
         sessionRepository.save(session);
         return orderRepository.save(order);
