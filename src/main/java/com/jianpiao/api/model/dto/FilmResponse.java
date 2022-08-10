@@ -1,6 +1,8 @@
 package com.jianpiao.api.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class FilmResponse {
@@ -9,7 +11,7 @@ public class FilmResponse {
     private String filmName;
 
     private String introduction;
-
+    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
     private Date releasedTime;
 
     private Integer duration;
