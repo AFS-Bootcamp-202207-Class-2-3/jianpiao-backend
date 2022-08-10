@@ -8,7 +8,9 @@ import com.jianpiao.api.exception.SessionNotFoundException;
 import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Order;
 import com.jianpiao.api.model.entity.Session;
-import com.jianpiao.api.repository.*;
+import com.jianpiao.api.repository.FilmRepository;
+import com.jianpiao.api.repository.OrderRepository;
+import com.jianpiao.api.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,12 +35,6 @@ public class OrderService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    @Autowired
-    private CinemaRepository cinemaRepository;
-
-    @Autowired
-    private HallRepository hallRepository;
-
     public List<Order> findAllOrdersByUserId(String userId) {
         return orderRepository.findAllByUserId(userId);
     }
@@ -59,7 +55,7 @@ public class OrderService {
         map.put("hallName", hallName);
         map.put("seat", session.updateSite(seatIndexes, Session.SOLD));
         map.put("date", session.getDate() + " " + session.getStartTime());
-        map.put("price", toPrice(session.getPrice(), seatIndexes.size()));
+        map.put("totalPrice", toPrice(session.getPrice(), seatIndexes.size()));
         map.put("posterUrl", film.getPosterUrl());
         map.put("cinemaName", cinemaName);
 
