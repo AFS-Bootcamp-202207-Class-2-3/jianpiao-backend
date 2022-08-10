@@ -17,4 +17,5 @@ public class OrderResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String ticket;
+    private String code;
 }
