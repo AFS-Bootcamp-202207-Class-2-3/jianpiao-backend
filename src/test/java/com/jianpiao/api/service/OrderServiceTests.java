@@ -71,7 +71,7 @@ class OrderServiceTests {
         BDDMockito.given(filmRepository.findById("1")).willReturn(Optional.of(new Film()));
 
         //when
-        Order order1 = orderService.saveOrder(order, "1");
+        Order order1 = orderService.saveOrder("1", "1");
 
         //then
         MatcherAssert.assertThat(order1.getId(), Matchers.not(orderId));

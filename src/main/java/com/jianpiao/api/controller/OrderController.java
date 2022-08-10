@@ -1,6 +1,7 @@
 package com.jianpiao.api.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.mapper.OrderMapper;
 import com.jianpiao.api.model.dto.OrderRequest;
@@ -30,9 +31,9 @@ public class OrderController {
 
 
     @PostMapping
+//    @SaCheckLogin
     public Result insertOrder(@RequestBody OrderRequest orderRequest) {
-        Order order = orderMapper.toEntity(orderRequest);
-        return Result.ok().put("data", orderMapper.toResponse(orderService.saveOrder(order, orderRequest.getFilmId())));
+        return Result.ok().put("data", orderMapper.toResponse(orderService.saveOrder(orderRequest.getSessionId(), orderRequest.getSeatIndexes())));
     }
 
     @GetMapping("/{id}")

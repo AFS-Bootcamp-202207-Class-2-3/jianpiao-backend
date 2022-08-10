@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.time.ZoneId;
-import java.util.TimeZone;
 
 @Data
 @AllArgsConstructor
@@ -17,9 +15,7 @@ public class SessionResponse {
 
     private String id;
 
-    private String filmId;
-
-    private String hallId;
+    private String hallName;
 
     private String cinemaId;
 

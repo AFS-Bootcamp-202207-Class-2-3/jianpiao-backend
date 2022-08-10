@@ -45,5 +45,4 @@ public class SessionService {
         return Date.valueOf(LocalDate.now());
     }
 
-
 }

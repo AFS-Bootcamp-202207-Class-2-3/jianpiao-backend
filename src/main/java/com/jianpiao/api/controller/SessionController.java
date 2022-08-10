@@ -30,7 +30,7 @@ public class SessionController {
     }
 
     @GetMapping
-    public Result getSessionsByCinemaIdAndFilmId(@RequestParam(value = "cinemaId", required = false) String cinemaId,
+    public Result getSessions(@RequestParam(value = "cinemaId", required = false) String cinemaId,
                                                  @RequestParam(value = "filmId", required = false) String filmId) {
         if(Objects.isNull(cinemaId) && Objects.isNull(filmId))
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
