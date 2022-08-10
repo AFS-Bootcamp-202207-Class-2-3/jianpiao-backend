@@ -77,9 +77,10 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    @SaCheckLogin
     public Result logout() {
-        StpUtil.logout();
+        if(StpUtil.isLogin()){
+            StpUtil.logout();
+        }
         return Result.ok();
     }
 }
