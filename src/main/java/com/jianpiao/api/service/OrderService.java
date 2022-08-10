@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.exception.FilmNotFoundException;
 import com.jianpiao.api.exception.OrderNotFoundException;
 import com.jianpiao.api.exception.SessionNotFoundException;
+import com.jianpiao.api.model.entity.Cinema;
 import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Order;
 import com.jianpiao.api.model.entity.Session;
@@ -48,16 +49,21 @@ public class OrderService {
         Session session = sessionRepository.findById(sessionId).orElseThrow(SessionNotFoundException::new);
         Film film = filmRepository.findById(session.getFilmId()).orElseThrow(FilmNotFoundException::new);
         String hallName = session.getHall().getName();
-        String cinemaName = session.getCinema().getCinemaName();
+        Cinema cinema = session.getCinema();
 
         Map<String, Object> map = new HashMap();
+        map.put("filmId", film.getId());
         map.put("filmName", film.getFilmName());
+        map.put("posterUrl", film.getPosterUrl());
+
+        map.put("totalPrice", toPrice(session.getPrice(), seatIndexes.size()));
+
         map.put("hallName", hallName);
         map.put("seat", session.updateSite(seatIndexes, Session.SOLD));
         map.put("date", session.getDate() + " " + session.getStartTime());
-        map.put("totalPrice", toPrice(session.getPrice(), seatIndexes.size()));
-        map.put("posterUrl", film.getPosterUrl());
-        map.put("cinemaName", cinemaName);
+
+        map.put("cinemaName", cinema.getCinemaName());
+        map.put("contactNumber", cinema.getContactNumber());
 
 
         Order order = new Order();
