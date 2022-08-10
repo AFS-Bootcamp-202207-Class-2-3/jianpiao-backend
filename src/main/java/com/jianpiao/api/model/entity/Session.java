@@ -1,5 +1,7 @@
 package com.jianpiao.api.model.entity;
 
+import com.jianpiao.api.exception.SeatAlreadySoldException;
+import com.jianpiao.api.exception.SeatNotExistsException;
 import com.jianpiao.api.model.entity.converter.StringToTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,6 +62,11 @@ public class Session {
                 .map(index -> {
                     int row = index / 11 + 1;
                     int col = index % 11 + 1;
+                    if (NOT_EXIST.equals(chars[index])) {
+                        throw new SeatNotExistsException();
+                    } else if (SOLD.equals(chars[index]) && SOLD.equals(operation)) {
+                        throw new SeatAlreadySoldException();
+                    }
                     chars[index] = operation;
                     return String.format("%d排%d座", row, col);
                 })
