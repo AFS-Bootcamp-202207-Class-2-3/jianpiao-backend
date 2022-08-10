@@ -1,6 +1,5 @@
 package com.jianpiao.api.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jianpiao.api.model.entity.converter.StringToTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,11 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 @AllArgsConstructor
@@ -35,8 +31,9 @@ public class Session {
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
     private Hall hall;
 
-    @Column(name = "cinema_id")
-    private String cinemaId;
+    @OneToOne
+    @JoinColumn(name = "cinema_id", referencedColumnName = "id")
+    private Cinema cinema;
 
     private Date date;
 

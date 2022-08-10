@@ -1,5 +1,6 @@
 package com.jianpiao.api.service.specification;
 
+import com.jianpiao.api.model.entity.Cinema;
 import com.jianpiao.api.model.entity.Session;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -30,11 +31,11 @@ public class FindSessionSpecification implements Specification<Session> {
     public Predicate toPredicate(Root<Session> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList();
         if (Objects.nonNull(cinemaId)) {
-            Path<String> cid = root.get("cinemaId");
-            predicates.add(criteriaBuilder.equal(cid, cinemaId));
-        } else if (Objects.isNull(filmId)) {
-            Path<String> fId = root.get("filmId");
-            predicates.add(criteriaBuilder.equal(fId, filmId));
+            Path<Cinema> cinema = root.get("cinema");
+            predicates.add(criteriaBuilder.equal(cinema.get("id"), cinemaId));
+        } else if (Objects.nonNull(filmId)) {
+            Path<String> fid = root.get("filmId");
+            predicates.add(criteriaBuilder.equal(fid, filmId));
         }
         Path<Date> date = root.get("date");
         Predicate datePredicate = criteriaBuilder.greaterThan(date, curDate);
