@@ -5,6 +5,7 @@ import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.model.entity.Hall;
 import com.jianpiao.api.service.HallService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,12 @@ public class HallController {
     public Result getAllFilms() {
         List<Hall> halls = hallService.getAllHalls();
         return Result.ok().put("data", hallMapper.toResponses(halls));
+    }
+
+    @GetMapping("/{hallName}")
+    public Result addHall(@PathVariable String hallName) {
+        Hall newHall = hallService.addHall(hallName);
+        return Result.ok().put("data", hallMapper.toResponse(newHall));
     }
 
 }
