@@ -6,7 +6,11 @@ import java.sql.Time;
 public class StringToTimeConverter implements AttributeConverter<String, Time> {
     @Override
     public Time convertToDatabaseColumn(String attribute) {
-        return Time.valueOf(attribute.concat(":00"));
+        if (attribute.split(":").length == 2) {
+            return Time.valueOf(attribute.concat(":00"));
+        } else {
+            return Time.valueOf(attribute);
+        }
     }
 
     @Override
