@@ -28,9 +28,6 @@ public class Film {
 
     private Double score;
 
-    @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CinemaFilm> cinemaFilms = new HashSet<>();
-
     public Film() {
     }
 

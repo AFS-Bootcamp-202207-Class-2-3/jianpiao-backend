@@ -38,8 +38,22 @@ public class CinemaController {
         return Result.ok().put("data", filmService.getShowingFilmsByCinemaId(cinemaId));
     }
 
+    @GetMapping("/{cinemaId}/films")
+    public Result getFilmByCinemaIdAnd(@PathVariable String cinemaId, @RequestParam String status) {
+        return Result.ok().put("data", filmService.getFilmsByCinemaIdAndStatus(cinemaId, status));
+    }
+
     @PostMapping("/saveRelatedFilmAndCinema")
     public Result saveRelatedFilmAndCinema(@RequestBody CinemaFilmRequest cinemaFilmRequest) {
+        return Result.ok()
+                .put("data", cinemaService.saveRelatedFilmAndCinema(
+                        cinemaFilmRequest.getFilmId(),
+                        cinemaFilmRequest.getCinemaId(),
+                        cinemaFilmRequest.getStatus()));
+    }
+
+    @PostMapping("/post-cinema-film")
+    public Result postCinemaFilm(@RequestBody CinemaFilmRequest cinemaFilmRequest) {
         return Result.ok()
                 .put("data", cinemaService.saveRelatedFilmAndCinema(
                         cinemaFilmRequest.getFilmId(),

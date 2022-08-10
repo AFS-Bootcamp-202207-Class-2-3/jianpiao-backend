@@ -16,6 +16,8 @@ import com.jianpiao.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 /**
  * @Author: BaBy
  * @Date: 2022/8/6 23:44
@@ -38,7 +40,12 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
         User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        return Result.ok().put("user", userMapper.toResponse(user));
+        HashMap<String, Object> data = new HashMap<String, Object>(){{
+            put("user", userMapper.toResponse(user));
+            put("roles", StpUtil.getRoleList());
+            put("permissions", StpUtil.getPermissionList());
+        }};
+        return Result.ok().put("data", data);
     }
 
     @GetMapping("/{userId}")
@@ -52,7 +59,12 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody UserRequest userRequest) {
         User user = userService.register(userMapper.toEntity(userRequest));
-        return Result.ok().put("user", userMapper.toResponse(user));
+        HashMap<String, Object> data = new HashMap<String, Object>(){{
+            put("user", userMapper.toResponse(user));
+            put("roles", StpUtil.getRoleList());
+            put("permissions", StpUtil.getPermissionList());
+        }};
+        return Result.ok().put("data", data);
     }
 
     @GetMapping("/{userId}/orders")
