@@ -14,10 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTests {
@@ -71,7 +68,7 @@ class OrderServiceTests {
         BDDMockito.given(filmRepository.findById("1")).willReturn(Optional.of(new Film()));
 
         //when
-        Order order1 = orderService.saveOrder("1", "1");
+        Order order1 = orderService.saveOrder("1", Arrays.asList(1));
 
         //then
         MatcherAssert.assertThat(order1.getId(), Matchers.not(orderId));
