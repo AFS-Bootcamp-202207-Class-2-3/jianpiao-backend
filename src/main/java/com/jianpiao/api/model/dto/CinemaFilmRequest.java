@@ -1,21 +1,13 @@
-package com.jianpiao.api.model.entity;
+package com.jianpiao.api.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cinema_film", schema = "public")
-public class CinemaFilm {
-
-    @Id
+public class CinemaFilmRequest {
     private String id;
 
     private String cinemaId;

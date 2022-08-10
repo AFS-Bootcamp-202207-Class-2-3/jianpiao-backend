@@ -1,9 +1,9 @@
 package com.jianpiao.api.model.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_film", schema = "public")
@@ -27,9 +27,6 @@ public class Film {
     private String posterUrl;
 
     private Double score;
-
-    @OneToMany(mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CinemaFilm> cinemaFilms = new HashSet<>();
 
     public Film() {
     }

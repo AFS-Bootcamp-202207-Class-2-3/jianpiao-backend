@@ -4,6 +4,7 @@ import com.jianpiao.api.mapper.FilmMapper;
 import com.jianpiao.api.model.dto.FilmRequest;
 import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.model.entity.Film;
+import com.jianpiao.api.service.CinemaService;
 import com.jianpiao.api.service.FilmService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,12 @@ public class FilmController {
 
     private FilmMapper filmMapper;
 
-    public FilmController(FilmService filmService, FilmMapper filmMapper) {
+    private CinemaService cinemaService;
+
+    public FilmController(FilmService filmService, FilmMapper filmMapper, CinemaService cinemaService) {
         this.filmService = filmService;
         this.filmMapper = filmMapper;
+        this.cinemaService = cinemaService;
     }
 
     @GetMapping()
@@ -45,5 +49,10 @@ public class FilmController {
         film.setId(String.valueOf(UUID.randomUUID()));
         Film newFilm = filmService.addFilm(film);
         return Result.ok().put("film: ", newFilm);
+    }
+
+    @GetMapping("/{filmId}/showingCinemas")
+    public Result getShowingCinemasByFilmId(@PathVariable String filmId) {
+        return Result.ok().put("data", cinemaService.getShowingCinemasByFilmId(filmId));
     }
 }

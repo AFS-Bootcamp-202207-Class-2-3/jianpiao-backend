@@ -2,7 +2,6 @@ package com.jianpiao.api.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.mapper.OrderMapper;
@@ -15,6 +14,8 @@ import com.jianpiao.api.service.OrderService;
 import com.jianpiao.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * @Author: BaBy
@@ -38,7 +39,12 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
         User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        return Result.ok().put("user", userMapper.toResponse(user));
+        HashMap<String, Object> data = new HashMap<String, Object>() {{
+            put("user", userMapper.toResponse(user));
+            put("roles", StpUtil.getRoleList());
+            put("permissions", StpUtil.getPermissionList());
+        }};
+        return Result.ok().put("data", data);
     }
 
     @GetMapping("/{userId}")
@@ -52,7 +58,12 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody UserRequest userRequest) {
         User user = userService.register(userMapper.toEntity(userRequest));
-        return Result.ok().put("user", userMapper.toResponse(user));
+        HashMap<String, Object> data = new HashMap<String, Object>() {{
+            put("user", userMapper.toResponse(user));
+            put("roles", StpUtil.getRoleList());
+            put("permissions", StpUtil.getPermissionList());
+        }};
+        return Result.ok().put("data", data);
     }
 
     @GetMapping("/{userId}/orders")
