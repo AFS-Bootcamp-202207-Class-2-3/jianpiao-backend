@@ -31,7 +31,7 @@ public class OrderController {
 
 
     @PostMapping
-//    @SaCheckLogin
+    @SaCheckLogin
     public Result insertOrder(@RequestBody OrderRequest orderRequest) {
         return Result.ok().put("data", orderMapper.toResponse(orderService.saveOrder(orderRequest.getSessionId(), orderRequest.getSeatIndexes())));
     }

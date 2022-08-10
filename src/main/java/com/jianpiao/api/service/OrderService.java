@@ -1,5 +1,6 @@
 package com.jianpiao.api.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.exception.FilmNotFoundException;
 import com.jianpiao.api.exception.HallNotFoundException;
@@ -61,8 +62,7 @@ public class OrderService {
 
         Order order = new Order();
         order.setId(UUID.randomUUID().toString());
-//        order.setUserId(StpUtil.getLoginId().toString());
-        order.setUserId("1");
+        order.setUserId(StpUtil.getLoginId().toString());
         order.setTicket(JSONUtil.parse(map).toString());
 
         sessionRepository.save(session);
