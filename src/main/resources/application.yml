@@ -24,3 +24,11 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     disable-swagger-default-url: on
+
+sa-token:
+  #token名称 (同时也是cookie名称)
+  token-name: jptoken
+  # token风格
+  token-style: uuid
+  #关闭读取Cookie中Token
+  isReadCookie: true

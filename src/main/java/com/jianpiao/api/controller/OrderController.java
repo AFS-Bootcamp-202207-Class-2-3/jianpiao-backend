@@ -30,10 +30,8 @@ public class OrderController {
 
 
     @PostMapping
+    @SaCheckLogin
     public Result insertOrder(@RequestBody OrderRequest orderRequest) {
-        if(!StpUtil.isLogin()){
-            throw new NotLoginException("未登录", "", "");
-        }
         if (Objects.isNull(orderRequest.getSeatIndexes()) || orderRequest.getSeatIndexes().size() == 0) {
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
