@@ -94,4 +94,24 @@ public class UserService {
 
         return userRepository.save(existedUser);
     }
+
+    public User adminRegister(String username, String password, String invitationCode) {
+        if (Objects.isNull(username) || Objects.isNull(password) || Objects.isNull(invitationCode)) {
+            throw new WrongRegisterInfoException("username or password or invitationCode is null");
+        }
+        if(!"888888".equals(invitationCode)){
+            throw new WrongRegisterInfoException("invitationCode is wrong");
+        }
+        if (Objects.nonNull(userRepository.findByUsername(username))) {
+            throw new WrongRegisterInfoException("username already exists");
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRoleIds("[2]");
+        user.setId(UUID.randomUUID().toString());
+        User savedUser = userRepository.save(user);
+        StpUtil.login(savedUser.getId());
+        return savedUser;
+    }
 }
