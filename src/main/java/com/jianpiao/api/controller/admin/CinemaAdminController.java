@@ -2,11 +2,10 @@ package com.jianpiao.api.controller.admin;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.jianpiao.api.mapper.CinemaMapper;
+import com.jianpiao.api.model.dto.CinemaAdminRequest;
 import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.service.CinemaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: Berlin
@@ -30,6 +29,13 @@ public class CinemaAdminController {
     @SaCheckRole("cinema-admin")
     public Result getAdminCinema() {
         return Result.ok().put("data", cinemaMapper.toResponse(cinemaService.getAdminCinema()));
+    }
+
+    @PutMapping("/{cinemaId}")
+    @SaCheckRole("cinema-admin")
+    public Result updateAdminCinema(@PathVariable String cinemaId, @RequestBody CinemaAdminRequest cinemaAdminRequest) {
+        return Result.ok().put("data", cinemaMapper.toResponse(cinemaService.updateAdminCinema(cinemaId, cinemaAdminRequest)));
+
     }
 
 }
