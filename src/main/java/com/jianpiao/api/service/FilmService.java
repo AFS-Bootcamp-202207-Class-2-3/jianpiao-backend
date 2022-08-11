@@ -134,7 +134,7 @@ public class FilmService {
                 .map(filmCinema -> {
                     Film film = filmRespository.findById(filmCinema.getFilmId()).orElseThrow(FilmNotFoundException::new);
                     HashMap map = JSONUtil.parseObj(film).toBean(HashMap.class);
-                    map.put("releasedTime", DateUtil.format(film.getReleasedTime(), "yyyy-MM-dd HH:mm:ss"));
+                    map.put("releasedTime", DateUtil.format(film.getReleasedTime(), "yyyy-MM-dd"));
                     map.put("cinemaId", filmCinema.getCinemaId());
                     map.put("status", filmCinema.getStatus());
                     map.put("film_cinema_id", filmCinema.getId());
@@ -186,7 +186,7 @@ public class FilmService {
     }
 
     public void updateFilmByFilmCinemaId(HashMap params) {
-        String filmCinemaId = MapUtil.getStr(params, "FilmCinemaId");
+        String filmCinemaId = MapUtil.getStr(params, "filmCinemaId");
         // 修改状态
         CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmCinemaNotFoundException::new);
         cinemaFilm.setStatus(MapUtil.getStr(params, "status"));

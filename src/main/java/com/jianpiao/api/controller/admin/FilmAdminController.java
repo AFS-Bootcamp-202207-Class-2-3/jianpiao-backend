@@ -52,6 +52,7 @@ public class FilmAdminController {
     public Result updateFilmByFilmCinemaId(@PathVariable String filmCinemaId, @RequestBody UpdateFilmCinemaRequest request){
         HashMap params = JSONUtil.parseObj(request).toBean(HashMap.class);
         params.put("filmCinemaId", filmCinemaId);
+        filmService.updateFilmByFilmCinemaId(params);
         return Result.ok();
     }
 
