@@ -80,7 +80,8 @@ public class UserController {
             userResponse.setPermissions(StpUtil.getPermissionList());
             put("userInfo", userResponse);
         }};
-        return Result.ok().put("data", data);
+        String token = StpUtil.getTokenInfo().getTokenValue();
+        return Result.ok().put("data", data).put("jptoken", token);
     }
 
     @GetMapping("/{userId}/orders")
