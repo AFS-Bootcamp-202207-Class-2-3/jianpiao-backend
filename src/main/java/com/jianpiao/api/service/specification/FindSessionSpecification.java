@@ -40,7 +40,7 @@ public class FindSessionSpecification implements Specification<Session> {
         }
         if (Objects.nonNull(filmId)) {
             Path<Film> film = root.get("film");
-            predicates.add(criteriaBuilder.equal(film.get("filmId"), filmId));
+            predicates.add(criteriaBuilder.equal(film.get("id"), filmId));
         }
         if (needOrderByDate) {
             Path<Date> date = root.get("date");
