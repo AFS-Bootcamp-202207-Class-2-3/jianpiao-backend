@@ -199,4 +199,10 @@ public class FilmService {
         filmRespository.save(updateFilm);
 
     }
+
+    public CinemaFilm updateFilmCinemaStatus(String filmCinemaId, String status) {
+        CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmCinemaNotFoundException::new);
+        cinemaFilm.setStatus(status);
+        return filmCinemaRepository.save(cinemaFilm);
+    }
 }
