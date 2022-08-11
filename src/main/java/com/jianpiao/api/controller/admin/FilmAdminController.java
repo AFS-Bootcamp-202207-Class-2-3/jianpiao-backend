@@ -2,10 +2,7 @@ package com.jianpiao.api.controller.admin;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.hutool.json.JSONUtil;
-import com.jianpiao.api.model.dto.CreateFilmCinemaRequest;
-import com.jianpiao.api.model.dto.PageUtils;
-import com.jianpiao.api.model.dto.Result;
-import com.jianpiao.api.model.dto.UserRequest;
+import com.jianpiao.api.model.dto.*;
 import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +47,12 @@ public class FilmAdminController {
         return Result.ok().put("data", filmService.createFilmCinema(params));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{filmCinemaId}")
     @SaCheckRole("cinema-admin")
-    public Result update(@PathVariable String id, @RequestBody Film film){
-        film.setId(id);
-        return Result.ok().put("data", filmService.update(film));
+    public Result updateFilmByFilmCinemaId(@PathVariable String filmCinemaId, @RequestBody UpdateFilmCinemaRequest request){
+        HashMap params = JSONUtil.parseObj(request).toBean(HashMap.class);
+        params.put("filmCinemaId", filmCinemaId);
+        return Result.ok();
     }
 
     @PostMapping("/delete-by-ids")

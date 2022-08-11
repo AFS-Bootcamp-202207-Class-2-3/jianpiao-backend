@@ -5,10 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.jianpiao.api.exception.CinemaException;
-import com.jianpiao.api.exception.CinemaNotFoundException;
-import com.jianpiao.api.exception.FilmNotFoundException;
-import com.jianpiao.api.exception.ParamNotSatisfiedException;
+import com.jianpiao.api.exception.*;
 import com.jianpiao.api.mapper.FilmMapper;
 import com.jianpiao.api.model.dto.PageUtils;
 import com.jianpiao.api.model.entity.Cinema;
@@ -186,5 +183,20 @@ public class FilmService {
         map.put("film_id", cinemaFilm.getFilmId());
         map.put("cinema_id", cinemaFilm.getCinemaId());
         return map;
+    }
+
+    public void updateFilmByFilmCinemaId(HashMap params) {
+        String filmCinemaId = MapUtil.getStr(params, "FilmCinemaId");
+        // 修改状态
+        CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmCinemaNotFoundException::new);
+        cinemaFilm.setStatus(MapUtil.getStr(params, "status"));
+        filmCinemaRepository.save(cinemaFilm);
+
+        // 修改电影
+        Film film = filmRespository.findById(cinemaFilm.getFilmId()).orElseThrow(FilmNotFoundException::new);
+        Film updateFilm = JSONUtil.parseObj(params).toBean(Film.class);
+        updateFilm.setId(film.getId());
+        filmRespository.save(updateFilm);
+
     }
 }
