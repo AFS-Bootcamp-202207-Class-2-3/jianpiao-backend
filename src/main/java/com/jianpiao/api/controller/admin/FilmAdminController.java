@@ -25,10 +25,16 @@ public class FilmAdminController {
     @Autowired
     private FilmService filmService;
 
+//    @GetMapping("/")
+//    @SaCheckRole("cinema-admin")
+//    public Result getPageByParams(@RequestParam Map<String, Object> params){
+//        return Result.ok().put("data", filmService.getPageByParams(params));
+//    }
+
     @GetMapping("/")
     @SaCheckRole("cinema-admin")
-    public Result getPageByParams(@RequestParam Map<String, Object> params){
-        return Result.ok().put("data", filmService.getPageByParams(params));
+    public Result getFilmAndCinemaListByStatus(@RequestParam String status){
+        return Result.ok().put("data", filmService.getFilmAndCinemaListByStatus(status));
     }
 
     @GetMapping("/{filmCinemaId}")

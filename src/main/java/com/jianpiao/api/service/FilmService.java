@@ -118,6 +118,34 @@ public class FilmService {
         return pageUtils;
     }
 
+    public List<HashMap> getFilmAndCinemaListByStatus(String status){
+        List<CinemaFilm> cinemaFilms;
+        if(status == null){
+            status="";
+        }
+
+        List<String> manageCinemaIds = userCinemaRepository.findAllByUserId(StpUtil.getLoginId().toString()).stream()
+                .map(UserCinema::getCinemaId)
+                .collect(Collectors.toList());
+
+        if(status==""){
+            cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(manageCinemaIds);
+        }else {
+            cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, manageCinemaIds);
+        }
+        List<HashMap> data = cinemaFilms.stream()
+                .map(filmCinema -> {
+                    Film film = filmRespository.findById(filmCinema.getFilmId()).orElseThrow(FilmNotFoundException::new);
+                    HashMap map = JSONUtil.parseObj(film).toBean(HashMap.class);
+                    map.put("releasedTime", DateUtil.format(film.getReleasedTime(), "yyyy-MM-dd HH:mm:ss"));
+                    map.put("cinemaId", filmCinema.getCinemaId());
+                    map.put("status", filmCinema.getStatus());
+                    map.put("film_cinema_id", filmCinema.getId());
+                    return map;
+                }).collect(Collectors.toList());
+        return data;
+    }
+
     public Film getEntityById(String id) {
         return filmRespository.findById(id).orElseThrow(FilmNotFoundException::new);
     }

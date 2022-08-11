@@ -20,4 +20,6 @@ public interface FilmCinemaRepository extends JpaRepository<CinemaFilm, String> 
     List<CinemaFilm> findAllByStatusAndCinemaIdIn(String status, List<String> cinemaIds);
 
     List<CinemaFilm> findAllByCinemaIdIn(List<String> cinemaIds, Pageable pageable);
+
+    List<CinemaFilm> findAllByCinemaIdIn(List<String> cinemaIds);
 }
