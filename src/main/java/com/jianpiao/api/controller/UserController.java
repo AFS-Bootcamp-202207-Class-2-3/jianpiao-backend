@@ -7,11 +7,9 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.exception.CinemaNotFoundException;
 import com.jianpiao.api.mapper.OrderMapper;
+import com.jianpiao.api.mapper.SessionMapper;
 import com.jianpiao.api.mapper.UserMapper;
-import com.jianpiao.api.model.dto.LoginRequest;
-import com.jianpiao.api.model.dto.Result;
-import com.jianpiao.api.model.dto.UserRequest;
-import com.jianpiao.api.model.dto.UserResponse;
+import com.jianpiao.api.model.dto.*;
 import com.jianpiao.api.model.entity.User;
 import com.jianpiao.api.model.entity.UserCinema;
 import com.jianpiao.api.repository.UserCinemaRepository;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * @Author: BaBy
@@ -48,6 +47,9 @@ public class UserController {
 
     @Autowired
     private UserCinemaRepository userCinemaRepository;
+
+    @Autowired
+    private SessionMapper sessionMapper;
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
@@ -113,6 +115,8 @@ public class UserController {
             throw new CinemaNotFoundException();
         }
 
-        return Result.ok().put("data", sessionService.findSessions(userCinemas.get(0).getCinemaId(), null));
+        TreeMap<String, List<SessionResponse>> sessionResponse = sessionMapper.toResponse(sessionService.findSessions(userCinemas.get(0).getCinemaId(), null, false));
+
+        return Result.ok().put("data", sessionResponse.values());
     }
 }

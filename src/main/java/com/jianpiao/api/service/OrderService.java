@@ -47,7 +47,7 @@ public class OrderService {
     @Transactional
     public Order saveOrder(String sessionId, List<Integer> seatIndexes) {
         Session session = sessionRepository.findById(sessionId).orElseThrow(SessionNotFoundException::new);
-        Film film = filmRepository.findById(session.getFilmId()).orElseThrow(FilmNotFoundException::new);
+        Film film = filmRepository.findById(session.getFilm().getId()).orElseThrow(FilmNotFoundException::new);
         String hallName = session.getHall().getName();
         Cinema cinema = session.getCinema();
 

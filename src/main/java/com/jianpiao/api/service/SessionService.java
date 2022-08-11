@@ -33,13 +33,14 @@ public class SessionService {
         return sessionRepository.findById(sessionId).orElseThrow(SessionNotFoundException::new);
     }
 
-    public Map<Date, List<Session>> findSessions(String cinemaId, String filmId) {
-        Specification specification = new FindSessionSpecification(cinemaId, filmId, getCurDate(), getCurTime());
+    public Map<Date, List<Session>> findSessions(String cinemaId, String filmId, boolean needOrderByDate) {
+        Specification specification = new FindSessionSpecification(cinemaId, filmId, getCurDate(), getCurTime(), needOrderByDate);
         List<Session> sessions = sessionRepository.findAll(specification);
 
         return sessions.stream()
                 .collect(Collectors.groupingBy(Session::getDate, TreeMap::new, Collectors.toList()));
     }
+
 
     private String getCurTime() {
         return Time.valueOf(LocalTime.now()).toString();

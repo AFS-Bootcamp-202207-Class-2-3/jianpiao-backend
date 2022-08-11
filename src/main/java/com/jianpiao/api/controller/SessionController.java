@@ -36,7 +36,7 @@ public class SessionController {
         if (Objects.isNull(cinemaId) && Objects.isNull(filmId))
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
 
-        Map<Date, List<Session>> sessions = sessionService.findSessions(cinemaId, filmId);
+        Map<Date, List<Session>> sessions = sessionService.findSessions(cinemaId, filmId, true);
         return Result.ok().put("data", sessionMapper.toResponse(sessions));
     }
 

@@ -25,10 +25,12 @@ public class SessionMapper {
         BeanUtil.copyProperties(session, sessionResponse, CopyOptions.create().setIgnoreNullValue(true));
         sessionResponse.setHallName(session.getHall().getName());
         sessionResponse.setCinemaName(session.getCinema().getCinemaName());
+        sessionResponse.setFilmName(session.getFilm().getFilmName());
+        sessionResponse.setFilmId(session.getFilm().getId());
         return sessionResponse;
     }
 
-    public Object toResponse(Map<Date, List<Session>> sessions) {
+    public TreeMap<String, List<SessionResponse>> toResponse(Map<Date, List<Session>> sessions) {
         return sessions.entrySet()
                 .stream()
                 .collect(Collectors.toMap(

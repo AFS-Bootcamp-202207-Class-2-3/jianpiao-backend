@@ -17,6 +17,10 @@ public class SessionResponse {
 
     private String hallName;
 
+    private String filmName;
+
+    private String filmId;
+
     private String cinemaId;
 
     private String cinemaName;

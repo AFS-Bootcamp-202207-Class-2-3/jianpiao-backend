@@ -26,8 +26,9 @@ public class Session {
     @Id
     private String id;
 
-    @Column(name = "film_id")
-    private String filmId;
+    @OneToOne
+    @JoinColumn(name = "film_id", referencedColumnName = "id")
+    private Film film;
 
     @OneToOne
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
