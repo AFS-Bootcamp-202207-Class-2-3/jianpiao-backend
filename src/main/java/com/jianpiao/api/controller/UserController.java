@@ -3,7 +3,9 @@ package com.jianpiao.api.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
+import com.jianpiao.api.exception.CinemaNotFoundException;
 import com.jianpiao.api.mapper.OrderMapper;
 import com.jianpiao.api.mapper.UserMapper;
 import com.jianpiao.api.model.dto.LoginRequest;
@@ -11,12 +13,16 @@ import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.model.dto.UserRequest;
 import com.jianpiao.api.model.dto.UserResponse;
 import com.jianpiao.api.model.entity.User;
+import com.jianpiao.api.model.entity.UserCinema;
+import com.jianpiao.api.repository.UserCinemaRepository;
 import com.jianpiao.api.service.OrderService;
+import com.jianpiao.api.service.SessionService;
 import com.jianpiao.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: BaBy
@@ -36,6 +42,12 @@ public class UserController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private SessionService sessionService;
+
+    @Autowired
+    private UserCinemaRepository userCinemaRepository;
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
@@ -87,7 +99,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public Result updateUser(@PathVariable String userId, @RequestBody UserRequest userRequest) {
-        return Result.ok().put("data", userMapper.toUpdatedUserResponse(userService.updateUser(userId,userMapper.toEntity(userRequest))));
+        return Result.ok().put("data", userMapper.toUpdatedUserResponse(userService.updateUser(userId, userMapper.toEntity(userRequest))));
     }
 
     @GetMapping("/{userId}/sessions")
