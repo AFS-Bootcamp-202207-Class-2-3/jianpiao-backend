@@ -46,7 +46,7 @@ public class FindSessionSpecification implements Specification<Session> {
         Predicate dateTimePredicate = criteriaBuilder.or(datePredicate, startTimePredicate);
 
         Predicate finalPredicate = predicates.stream()
-                .reduce(dateTimePredicate, (predicate, predicate2) -> criteriaBuilder.and(predicate, predicate2));
+                .reduce(dateTimePredicate, criteriaBuilder::and);
 
         return query.where(finalPredicate).getGroupRestriction();
     }

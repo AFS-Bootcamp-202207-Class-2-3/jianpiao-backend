@@ -51,6 +51,18 @@ public class OrderService {
         String hallName = session.getHall().getName();
         Cinema cinema = session.getCinema();
 
+        Map<String, Object> map = getTicketMap(seatIndexes, session, film, hallName, cinema);
+        Date createTime = getCurDate();
+
+        Order order = new Order(UUID.randomUUID().toString(),
+                StpUtil.getLoginId().toString(), JSONUtil.parse(map).toString(), createTime, String.valueOf(createTime.getTime()));
+
+
+        sessionRepository.save(session);
+        return orderRepository.save(order);
+    }
+
+    private Map<String, Object> getTicketMap(List<Integer> seatIndexes, Session session, Film film, String hallName, Cinema cinema) {
         Map<String, Object> map = new HashMap();
         map.put("filmId", film.getId());
         map.put("filmName", film.getFilmName());
@@ -64,18 +76,7 @@ public class OrderService {
 
         map.put("cinemaName", cinema.getCinemaName());
         map.put("contactNumber", cinema.getContactNumber());
-
-
-        Order order = new Order();
-        order.setId(UUID.randomUUID().toString());
-        order.setUserId(StpUtil.getLoginId().toString());
-        order.setTicket(JSONUtil.parse(map).toString());
-        order.setCreateTime(getCurDate());
-        order.setCode(String.valueOf(order.getCreateTime().getTime()));
-
-
-        sessionRepository.save(session);
-        return orderRepository.save(order);
+        return map;
     }
 
     private String toPrice(Double price, int size) {

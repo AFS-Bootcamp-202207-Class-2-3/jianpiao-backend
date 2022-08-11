@@ -3,10 +3,7 @@ package com.jianpiao.api.advice;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
-import com.jianpiao.api.exception.ParamNotSatisfiedException;
-import com.jianpiao.api.exception.UserNotFoundException;
-import com.jianpiao.api.exception.WrongLoginInfoException;
-import com.jianpiao.api.exception.WrongRegisterInfoException;
+import com.jianpiao.api.exception.*;
 import com.jianpiao.api.model.dto.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,7 +29,7 @@ public class GlobalControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({NotRoleException.class, NotPermissionException.class})
+    @ExceptionHandler({NotRoleException.class, NotPermissionException.class, UnAuthorizedException.class})
     public Result handleNotRoleAndPermissionException(Exception exception) {
         return Result.error(HttpStatus.UNAUTHORIZED.value(), "不具备权限");
     }

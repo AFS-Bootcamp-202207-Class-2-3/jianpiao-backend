@@ -2,6 +2,7 @@ package com.jianpiao.api.controller;
 
 import com.jianpiao.api.mapper.SessionMapper;
 import com.jianpiao.api.model.dto.Result;
+import com.jianpiao.api.model.dto.SessionRequest;
 import com.jianpiao.api.model.entity.Session;
 import com.jianpiao.api.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,25 @@ public class SessionController {
 
     @GetMapping
     public Result getSessions(@RequestParam(value = "cinemaId", required = false) String cinemaId,
-                                                 @RequestParam(value = "filmId", required = false) String filmId) {
-        if(Objects.isNull(cinemaId) && Objects.isNull(filmId))
+                              @RequestParam(value = "filmId", required = false) String filmId) {
+        if (Objects.isNull(cinemaId) && Objects.isNull(filmId))
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
 
         Map<Date, List<Session>> sessions = sessionService.findSessions(cinemaId, filmId);
         return Result.ok().put("data", sessionMapper.toResponse(sessions));
+    }
+
+    @PostMapping
+    public Result insertSession(@RequestBody SessionRequest sessionRequest) {
+        return Result.ok().put("data", sessionMapper.toResponse(
+                sessionService.saveSession(sessionMapper.toEntity(sessionRequest)))
+        );
+    }
+
+    @DeleteMapping("/{sessionId}")
+    public Result deleteSession(@PathVariable("sessionId") String sessionId) {
+        sessionService.deleteSession(sessionId);
+        return Result.ok();
     }
 
 }
