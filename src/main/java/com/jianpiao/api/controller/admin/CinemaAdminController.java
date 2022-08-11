@@ -1,5 +1,6 @@
 package com.jianpiao.api.controller.admin;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.jianpiao.api.mapper.CinemaMapper;
 import com.jianpiao.api.model.dto.Result;
 import com.jianpiao.api.service.CinemaService;
@@ -26,6 +27,7 @@ public class CinemaAdminController {
     }
 
     @GetMapping()
+    @SaCheckRole("cinema-admin")
     public Result getAdminCinema() {
         return Result.ok().put("data", cinemaMapper.toResponse(cinemaService.getAdminCinema()));
     }
