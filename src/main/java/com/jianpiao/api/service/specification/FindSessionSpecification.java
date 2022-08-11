@@ -1,6 +1,7 @@
 package com.jianpiao.api.service.specification;
 
 import com.jianpiao.api.model.entity.Cinema;
+import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Session;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -38,8 +39,8 @@ public class FindSessionSpecification implements Specification<Session> {
             predicates.add(criteriaBuilder.equal(cinema.get("id"), cinemaId));
         }
         if (Objects.nonNull(filmId)) {
-            Path<String> fid = root.get("filmId");
-            predicates.add(criteriaBuilder.equal(fid, filmId));
+            Path<Film> film = root.get("film");
+            predicates.add(criteriaBuilder.equal(film.get("filmId"), filmId));
         }
         if (needOrderByDate) {
             Path<Date> date = root.get("date");
