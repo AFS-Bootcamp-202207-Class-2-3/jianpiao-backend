@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAdminRegisterRequest extends User {
-    private String InvitationCode;
+    private String invitationCode;
 }
