@@ -3,6 +3,7 @@ package com.jianpiao.api.advice;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import com.jianpiao.api.exception.ParamNotSatisfiedException;
 import com.jianpiao.api.exception.UserNotFoundException;
 import com.jianpiao.api.exception.WrongLoginInfoException;
 import com.jianpiao.api.exception.WrongRegisterInfoException;
@@ -46,5 +47,11 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({WrongRegisterInfoException.class})
     public Result handleBusinessException(Exception exception) {
         return Result.error(HttpStatus.PRECONDITION_FAILED.value(), exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ParamNotSatisfiedException.class})
+    public Result handleParamNotSatisfiedException(Exception exception) {
+        return Result.error(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 }

@@ -4,9 +4,11 @@ import com.jianpiao.api.exception.CinemaException;
 import com.jianpiao.api.exception.FilmNotFoundException;
 import com.jianpiao.api.model.entity.Cinema;
 import com.jianpiao.api.model.entity.CinemaFilm;
+import com.jianpiao.api.model.entity.UserCinema;
 import com.jianpiao.api.repository.CinemaRepository;
 import com.jianpiao.api.repository.FilmCinemaRepository;
 import com.jianpiao.api.repository.FilmRepository;
+import com.jianpiao.api.repository.UserCinemaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +23,14 @@ public class CinemaService {
 
     private final FilmCinemaRepository filmCinemaRepository;
 
+    private final UserCinemaRepository userCinemaRepository;
+
     private final FilmRepository filmRepository;
 
-    public CinemaService(CinemaRepository cinemaRepository, FilmCinemaRepository filmCinemaRepository, FilmRepository filmRepository) {
+    public CinemaService(CinemaRepository cinemaRepository, FilmCinemaRepository filmCinemaRepository, UserCinemaRepository userCinemaRepository, FilmRepository filmRepository) {
         this.cinemaRepository = cinemaRepository;
         this.filmCinemaRepository = filmCinemaRepository;
+        this.userCinemaRepository = userCinemaRepository;
         this.filmRepository = filmRepository;
     }
 
