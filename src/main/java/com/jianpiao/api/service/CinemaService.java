@@ -1,5 +1,6 @@
 package com.jianpiao.api.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.exception.CinemaException;
 import com.jianpiao.api.exception.FilmNotFoundException;
 import com.jianpiao.api.model.entity.Cinema;
@@ -65,4 +66,14 @@ public class CinemaService {
     public List<Cinema> getShowingCinemasByFilmId(String filmId) {
         return getCinemasByFilmIdAndStatus(filmId, STATUS_SHOWING);
     }
+
+    public Cinema getAdminCinema() {
+        // 目前迭代，使用findFirst处理list返回多个结果。如果出现一个用户对应多个影院则需重构。
+        String userId = StpUtil.getLoginId().toString();
+        UserCinema userCinema = userCinemaRepository.findAllByUserId(userId).stream().findFirst().get();
+
+        Cinema cinema = cinemaRepository.findById(userCinema.getCinemaId()).get();
+        return cinema;
+    }
+
 }
