@@ -31,10 +31,10 @@ public class FilmAdminController {
         return Result.ok().put("data", filmService.getPageByParams(params));
     }
 
-    @GetMapping("/{filmId}")
+    @GetMapping("/{filmCinemaId}")
     @SaCheckRole("cinema-admin")
-    public Result getEntityById(@PathVariable String filmId){
-        return Result.ok().put("data", filmService.getEntityById(filmId));
+    public Result getFilmAndCinemaByFilmCinemaId(@PathVariable String filmCinemaId){
+        return Result.ok().put("data", filmService.getFilmAndCinemaByFilmCinemaId(filmCinemaId));
     }
 
     @PostMapping("/")

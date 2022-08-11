@@ -5,6 +5,8 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.jianpiao.api.exception.CinemaException;
+import com.jianpiao.api.exception.CinemaNotFoundException;
 import com.jianpiao.api.exception.FilmNotFoundException;
 import com.jianpiao.api.exception.ParamNotSatisfiedException;
 import com.jianpiao.api.mapper.FilmMapper;
@@ -142,5 +144,19 @@ public class FilmService {
 
     public void removeByIds(List<String> ids) {
         filmCinemaRepository.deleteAllById(ids);
+    }
+
+    public HashMap getFilmAndCinemaByFilmCinemaId(String filmCinemaId) {
+        CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmNotFoundException::new);
+        Film film = filmRespository.findById(cinemaFilm.getFilmId()).orElseThrow(FilmNotFoundException::new);
+        Cinema cinema = cinemaRepository.findById(cinemaFilm.getCinemaId()).orElseThrow(CinemaNotFoundException::new);
+        HashMap map = JSONUtil.parseObj(film).toBean(HashMap.class);
+        map.putAll(JSONUtil.parseObj(cinema).toBean(HashMap.class));
+        map.put("status", cinemaFilm.getStatus());
+
+        map.put("film_cinema_id", cinemaFilm.getId());
+        map.put("film_id", cinemaFilm.getFilmId());
+        map.put("cinema_id", cinemaFilm.getCinemaId());
+        return map;
     }
 }
