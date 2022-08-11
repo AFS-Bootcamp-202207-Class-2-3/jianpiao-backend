@@ -148,7 +148,9 @@ public class FilmService {
     }
 
     public Film createFilmCinema(HashMap params) {
-        Film savedFilm = filmRespository.save(JSONUtil.parseObj(params).toBean(Film.class));
+        Film film = JSONUtil.parseObj(params).toBean(Film.class);
+        film.setId(UUID.randomUUID().toString());
+        Film savedFilm = filmRespository.save(film);
 
         // 插入可选影院
 //        List<String> cinemaIds = JSONUtil.parseArray(params.get("cinemaIds")).stream()
