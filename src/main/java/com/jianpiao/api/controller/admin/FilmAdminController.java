@@ -47,11 +47,18 @@ public class FilmAdminController {
         return Result.ok().put("data", filmService.createFilmCinema(params));
     }
 
+    @PostMapping("/update-film-cinema-status")
+    @SaCheckRole("cinema-admin")
+    public Result updateFilmCinemaStatus(@RequestBody UpdateFilmCinemaStatusRequest request){
+        return Result.ok().put("data", filmService.updateFilmCinemaStatus(request.getFilmCinemaId(), request.getStatus()));
+    }
+
     @PutMapping("/{filmCinemaId}")
     @SaCheckRole("cinema-admin")
     public Result updateFilmByFilmCinemaId(@PathVariable String filmCinemaId, @RequestBody UpdateFilmCinemaRequest request){
         HashMap params = JSONUtil.parseObj(request).toBean(HashMap.class);
         params.put("filmCinemaId", filmCinemaId);
+        filmService.updateFilmByFilmCinemaId(params);
         return Result.ok();
     }
 

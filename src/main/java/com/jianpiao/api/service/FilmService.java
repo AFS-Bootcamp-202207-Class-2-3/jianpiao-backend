@@ -134,7 +134,7 @@ public class FilmService {
                 .map(filmCinema -> {
                     Film film = filmRespository.findById(filmCinema.getFilmId()).orElseThrow(FilmNotFoundException::new);
                     HashMap map = JSONUtil.parseObj(film).toBean(HashMap.class);
-                    map.put("releasedTime", DateUtil.format(film.getReleasedTime(), "yyyy-MM-dd HH:mm:ss"));
+                    map.put("releasedTime", DateUtil.format(film.getReleasedTime(), "yyyy-MM-dd"));
                     map.put("cinemaId", filmCinema.getCinemaId());
                     map.put("status", filmCinema.getStatus());
                     map.put("film_cinema_id", filmCinema.getId());
@@ -149,19 +149,26 @@ public class FilmService {
 
     public Film createFilmCinema(HashMap params) {
         Film savedFilm = filmRespository.save(JSONUtil.parseObj(params).toBean(Film.class));
-        List<String> cinemaIds = JSONUtil.parseArray(params.get("cinemaIds")).stream()
-                .map(Object::toString)
+
+        // 插入可选影院
+//        List<String> cinemaIds = JSONUtil.parseArray(params.get("cinemaIds")).stream()
+//                .map(Object::toString)
+//                .collect(Collectors.toList());
+
+        // 插入管理的所有影院
+        List<String> cinemaIds = userCinemaRepository.findAllByUserId(StpUtil.getLoginId().toString()).stream()
+                .map(UserCinema::getCinemaId)
                 .collect(Collectors.toList());
 
+//        String status = MapUtil.getStr(params, "status");
+        String status = "showing";
         cinemaIds.forEach(cinemaId->{
             String id = UUID.randomUUID().toString();
-            CinemaFilm cinemaFilm = new CinemaFilm(id, cinemaId, savedFilm.getId(), MapUtil.getStr(params, "status"));
+            CinemaFilm cinemaFilm = new CinemaFilm(id, cinemaId, savedFilm.getId(), status);
             filmCinemaRepository.save(cinemaFilm);
         });
         return savedFilm;
     }
-    
-    // todo
 
     public Film update(Film film) {
         return filmRespository.save(film);
@@ -186,7 +193,7 @@ public class FilmService {
     }
 
     public void updateFilmByFilmCinemaId(HashMap params) {
-        String filmCinemaId = MapUtil.getStr(params, "FilmCinemaId");
+        String filmCinemaId = MapUtil.getStr(params, "filmCinemaId");
         // 修改状态
         CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmCinemaNotFoundException::new);
         cinemaFilm.setStatus(MapUtil.getStr(params, "status"));
@@ -198,5 +205,11 @@ public class FilmService {
         updateFilm.setId(film.getId());
         filmRespository.save(updateFilm);
 
+    }
+
+    public CinemaFilm updateFilmCinemaStatus(String filmCinemaId, String status) {
+        CinemaFilm cinemaFilm = filmCinemaRepository.findById(filmCinemaId).orElseThrow(FilmCinemaNotFoundException::new);
+        cinemaFilm.setStatus(status);
+        return filmCinemaRepository.save(cinemaFilm);
     }
 }
