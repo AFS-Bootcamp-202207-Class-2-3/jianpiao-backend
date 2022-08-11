@@ -3,10 +3,8 @@ package com.jianpiao.api.service;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.exception.*;
-import com.jianpiao.api.mapper.FilmMapper;
 import com.jianpiao.api.model.dto.PageUtils;
 import com.jianpiao.api.model.entity.Cinema;
 import com.jianpiao.api.model.entity.CinemaFilm;
@@ -18,10 +16,8 @@ import com.jianpiao.api.repository.FilmRepository;
 import com.jianpiao.api.repository.UserCinemaRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -122,14 +118,12 @@ public class FilmService {
             status="";
         }
 
-        List<String> manageCinemaIds = userCinemaRepository.findAllByUserId(StpUtil.getLoginId().toString()).stream()
-                .map(UserCinema::getCinemaId)
-                .collect(Collectors.toList());
+        UserCinema manageCinemaIds = userCinemaRepository.findAllByUserId(StpUtil.getLoginId().toString()).stream().findFirst().get();
 
         if(status==""){
-            cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(Arrays.asList("1"));
+            cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(Arrays.asList(manageCinemaIds.getCinemaId()));
         }else {
-            cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, Arrays.asList("1"));
+            cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, Arrays.asList(manageCinemaIds.getCinemaId()));
         }
         List<HashMap> data = cinemaFilms.stream()
                 .map(filmCinema -> {
