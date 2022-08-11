@@ -1,12 +1,12 @@
 package com.jianpiao.api.mapper;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.jianpiao.api.model.dto.UpdatedUserResponse;
 import com.jianpiao.api.model.dto.UserRequest;
 import com.jianpiao.api.model.dto.UserResponse;
 import com.jianpiao.api.model.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,5 +32,11 @@ public class UserMapper {
         return users.stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public UpdatedUserResponse toUpdatedUserResponse(User user){
+        UpdatedUserResponse updatedUserResponse = new UpdatedUserResponse();
+        BeanUtil.copyProperties(user, updatedUserResponse);
+        return updatedUserResponse;
     }
 }

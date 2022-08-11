@@ -2,7 +2,6 @@ package com.jianpiao.api.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.mapper.OrderMapper;
@@ -41,7 +40,7 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody LoginRequest loginRequest) {
         User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        HashMap<String, Object> data = new HashMap<String, Object>(){{
+        HashMap<String, Object> data = new HashMap<String, Object>() {{
             UserResponse userResponse = userMapper.toResponse(user);
             userResponse.setRoles(StpUtil.getRoleList());
             userResponse.setPermissions(StpUtil.getPermissionList());
@@ -61,7 +60,7 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody UserRequest userRequest) {
         User user = userService.register(userMapper.toEntity(userRequest));
-        HashMap<String, Object> data = new HashMap<String, Object>(){{
+        HashMap<String, Object> data = new HashMap<String, Object>() {{
             UserResponse userResponse = userMapper.toResponse(user);
             userResponse.setRoles(StpUtil.getRoleList());
             userResponse.setPermissions(StpUtil.getPermissionList());
@@ -78,9 +77,14 @@ public class UserController {
 
     @PostMapping("/logout")
     public Result logout() {
-        if(StpUtil.isLogin()){
+        if (StpUtil.isLogin()) {
             StpUtil.logout();
         }
         return Result.ok();
+    }
+
+    @PutMapping("/{userId}")
+    public Result updateUser(@PathVariable String userId, @RequestBody UserRequest userRequest) {
+        return Result.ok().put("data", userMapper.toUpdatedUserResponse(userService.updateUser(userId,userMapper.toEntity(userRequest))));
     }
 }

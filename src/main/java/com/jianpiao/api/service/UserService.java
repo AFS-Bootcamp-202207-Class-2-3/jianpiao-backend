@@ -1,6 +1,8 @@
 package com.jianpiao.api.service;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.exception.UserNotFoundException;
 import com.jianpiao.api.exception.WrongLoginInfoException;
@@ -81,5 +83,15 @@ public class UserService {
             permissionSet.addAll(permissionRepository.findAllById(permissionIds));
         });
         return new ArrayList<>(permissionSet);
+    }
+
+    public User updateUser(String id, User user) {
+        User existedUser = getUserById(id);
+        if (user.getPassword().equals("")) {
+            user.setPassword(null);
+        }
+        BeanUtil.copyProperties(user, existedUser, CopyOptions.create().setIgnoreNullValue(true));
+
+        return userRepository.save(existedUser);
     }
 }
