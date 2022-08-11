@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserAdminRegisterRequest extends User {
     private String invitationCode;
+    private String cinemaName;
 }

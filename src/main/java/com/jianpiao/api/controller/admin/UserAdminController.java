@@ -30,7 +30,7 @@ public class UserAdminController {
 
     @PostMapping("/register")
     public Result register(@RequestBody UserAdminRegisterRequest request) {
-        User user = userService.adminRegister(request.getUsername(), request.getPassword(), request.getInvitationCode());
+        User user = userService.adminRegister(request.getUsername(), request.getPassword(), request.getInvitationCode(), request.getCinemaName());
         HashMap<String, Object> data = new HashMap<String, Object>() {{
             UserResponse userResponse = userMapper.toResponse(user);
             userResponse.setRoles(StpUtil.getRoleList());

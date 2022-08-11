@@ -7,12 +7,8 @@ import cn.hutool.json.JSONUtil;
 import com.jianpiao.api.exception.UserNotFoundException;
 import com.jianpiao.api.exception.WrongLoginInfoException;
 import com.jianpiao.api.exception.WrongRegisterInfoException;
-import com.jianpiao.api.model.entity.Permission;
-import com.jianpiao.api.model.entity.Role;
-import com.jianpiao.api.model.entity.User;
-import com.jianpiao.api.repository.PermissionRepository;
-import com.jianpiao.api.repository.RoleRepository;
-import com.jianpiao.api.repository.UserRepository;
+import com.jianpiao.api.model.entity.*;
+import com.jianpiao.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +30,12 @@ public class UserService {
 
     @Autowired
     private PermissionRepository permissionRepository;
+
+    @Autowired
+    private CinemaRepository cinemaRepository;
+
+    @Autowired
+    private UserCinemaRepository userCinemaRepository;
 
     public User login(String username, String password) {
         User loginUser = userRepository.findByUsernameAndPassword(username, password);
@@ -95,7 +97,7 @@ public class UserService {
         return userRepository.save(existedUser);
     }
 
-    public User adminRegister(String username, String password, String invitationCode) {
+    public User adminRegister(String username, String password, String invitationCode, String cinemaName) {
         if (Objects.isNull(username) || Objects.isNull(password) || Objects.isNull(invitationCode)) {
             throw new WrongRegisterInfoException("username or password or invitationCode is null");
         }
@@ -111,6 +113,13 @@ public class UserService {
         user.setRoleIds("[2]");
         user.setId(UUID.randomUUID().toString());
         User savedUser = userRepository.save(user);
+
+        // 创建影院
+        Cinema savedCinema = cinemaRepository.save(new Cinema(UUID.randomUUID().toString(), cinemaName, "", ""));
+
+        // 关联用户
+        UserCinema userCinema = userCinemaRepository.save(new UserCinema(UUID.randomUUID().toString(), savedUser.getId(), savedCinema.getId()));
+
         StpUtil.login(savedUser.getId());
         return savedUser;
     }
