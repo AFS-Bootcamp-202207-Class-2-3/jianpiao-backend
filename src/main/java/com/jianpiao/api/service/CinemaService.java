@@ -3,6 +3,7 @@ package com.jianpiao.api.service;
 import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.exception.CinemaException;
 import com.jianpiao.api.exception.FilmNotFoundException;
+import com.jianpiao.api.model.dto.CinemaAdminRequest;
 import com.jianpiao.api.model.entity.Cinema;
 import com.jianpiao.api.model.entity.CinemaFilm;
 import com.jianpiao.api.model.entity.UserCinema;
@@ -74,6 +75,13 @@ public class CinemaService {
 
         Cinema cinema = cinemaRepository.findById(userCinema.getCinemaId()).get();
         return cinema;
+    }
+
+    public Cinema updateAdminCinema(String cinemaId, CinemaAdminRequest cinemaAdminRequest) {
+        Cinema cinemaUpdate = cinemaRepository.findById(cinemaId).get();
+        cinemaUpdate.setAddress(cinemaAdminRequest.getAddress());
+        cinemaUpdate.setContactNumber(cinemaAdminRequest.getContactNumber());
+        return cinemaRepository.save(cinemaUpdate);
     }
 
 }
