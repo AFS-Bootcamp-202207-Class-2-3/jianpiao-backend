@@ -19,9 +19,7 @@ import com.jianpiao.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @Author: BaBy
@@ -117,6 +115,10 @@ public class UserController {
 
         TreeMap<String, List<SessionResponse>> sessionResponse = sessionMapper.toResponse(sessionService.findSessions(userCinemas.get(0).getCinemaId(), null, false));
 
-        return Result.ok().put("data", sessionResponse.values());
+        return Result.ok().put("data", sessionResponse.values().stream()
+                .reduce(new ArrayList<>(), (s, all) -> {
+                    s.addAll(all);
+                    return s;
+                }));
     }
 }
