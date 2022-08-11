@@ -33,7 +33,7 @@ public class HallAdminController {
 
     @GetMapping()
     @SaCheckRole("cinema-admin")
-    public Result getAllFilms() {
+    public Result getAllHalls() {
         List<Hall> halls = hallService.getAllHalls();
         return Result.ok().put("data", hallMapper.toResponses(halls));
     }
