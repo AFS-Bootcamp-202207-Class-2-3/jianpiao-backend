@@ -85,8 +85,10 @@ class OrderServiceTests {
         Hall hall = new Hall();
         hall.setId("1");
         Cinema cinema = new Cinema();
+        Film film = new Film();
+        film.setId("1");
         session.setHall(hall);
-        session.setFilmId("1");
+        session.setFilm(film);
         session.setCinema(cinema);
         session.setSite("1111111111111111111111111111111111111111111111111111111");
         List<Integer> seatIndexes = Arrays.asList(1);
@@ -97,7 +99,7 @@ class OrderServiceTests {
         BDDMockito.given(sessionRepository.findById("1")).willReturn(Optional.of(session));
         MockedStatic<StpUtil> mockedStatic = Mockito.mockStatic(StpUtil.class);
         mockedStatic.when(StpUtil::getLoginId).thenReturn("1");
-        BDDMockito.given(filmRepository.findById(session.getFilmId())).willReturn(Optional.of(new Film()));
+        BDDMockito.given(filmRepository.findById(session.getFilm().getId())).willReturn(Optional.of(new Film()));
 
         //when
         Order order1 = orderService.saveOrder("1", seatIndexes);

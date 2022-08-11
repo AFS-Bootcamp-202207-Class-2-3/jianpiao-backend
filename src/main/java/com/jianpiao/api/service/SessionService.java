@@ -61,7 +61,6 @@ public class SessionService {
             throw new SessionException(SessionException.TIME_CONFLICT);
         }
 
-
         toSaveSession.setId(UUID.randomUUID().toString());
         toSaveSession.setSite(initSite());
         return sessionRepository.save(toSaveSession);
