@@ -1,4 +1,4 @@
-package com.jianpiao.api.controller;
+package com.jianpiao.api.controller.admin;
 
 import com.jianpiao.api.mapper.HallMapper;
 import com.jianpiao.api.model.dto.Result;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/halls")
+@RequestMapping("/admin/halls")
 public class HallController {
 
     private HallService hallService;
