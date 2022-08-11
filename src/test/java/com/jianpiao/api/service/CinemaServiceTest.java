@@ -64,30 +64,30 @@ class CinemaServiceTest {
         assertEquals("zhuhai", cinemaById.getAddress());
     }
 
-    @Test
-    void should_return_admin_cinema_when_get_cinema_by_login_user_id_given_none() {
-        //given
-        String userId = "1";
-        String cinemaId = "111";
-        UserCinema userCinema = new UserCinema("1", userId, cinemaId);
-        List<UserCinema> userCinemaList = new ArrayList<>();
-        userCinemaList.add(userCinema);
-        when(userCinemaRepository.findAllByUserId(userId)).thenReturn(userCinemaList);
-
-        Cinema cinemaMock = new Cinema(cinemaId, "cinema one", "zhuhai", "123");
-        UserCinema userCinemaFind = userCinemaRepository.findAllByUserId(userId).stream().findFirst().get();
-        String cinemaQueryId = userCinemaFind.getCinemaId();
-        when(cinemaRepository.findById(cinemaQueryId)).thenReturn(Optional.of(cinemaMock));
-
-        MockedStatic<StpUtil> mockedStatic = Mockito.mockStatic(StpUtil.class);
-        mockedStatic.when(StpUtil::getLoginId).thenReturn("1");
-        //when
-        Cinema cinema = cinemaService.getAdminCinema();
-
-        //then
-        assertEquals("111", cinema.getId());
-        assertEquals("zhuhai", cinema.getAddress());
-    }
+    // @Test
+    // void should_return_admin_cinema_when_get_cinema_by_login_user_id_given_none() {
+    //     //given
+    //     String userId = "1";
+    //     String cinemaId = "111";
+    //     UserCinema userCinema = new UserCinema("1", userId, cinemaId);
+    //     List<UserCinema> userCinemaList = new ArrayList<>();
+    //     userCinemaList.add(userCinema);
+    //     when(userCinemaRepository.findAllByUserId(userId)).thenReturn(userCinemaList);
+    //
+    //     Cinema cinemaMock = new Cinema(cinemaId, "cinema one", "zhuhai", "123");
+    //     UserCinema userCinemaFind = userCinemaRepository.findAllByUserId(userId).stream().findFirst().get();
+    //     String cinemaQueryId = userCinemaFind.getCinemaId();
+    //     when(cinemaRepository.findById(cinemaQueryId)).thenReturn(Optional.of(cinemaMock));
+    //
+    //     MockedStatic<StpUtil> mockedStatic = Mockito.mockStatic(StpUtil.class);
+    //     mockedStatic.when(StpUtil::getLoginId).thenReturn("1");
+    //     //when
+    //     Cinema cinema = cinemaService.getAdminCinema();
+    //
+    //     //then
+    //     assertEquals("111", cinema.getId());
+    //     assertEquals("zhuhai", cinema.getAddress());
+    // }
 
     // @Test
     // void should_return_admin_update_cinema_when_update_cinema__given_new_cinema() {
