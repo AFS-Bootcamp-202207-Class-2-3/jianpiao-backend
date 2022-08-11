@@ -89,4 +89,18 @@ public class UserController {
     public Result updateUser(@PathVariable String userId, @RequestBody UserRequest userRequest) {
         return Result.ok().put("data", userMapper.toUpdatedUserResponse(userService.updateUser(userId,userMapper.toEntity(userRequest))));
     }
+
+    @GetMapping("/{userId}/sessions")
+    public Result getSessions() {
+        if (!StpUtil.isLogin()) {
+            throw new NotLoginException("未登录", "", "");
+        }
+        String userId = StpUtil.getLoginId().toString();
+        List<UserCinema> userCinemas = userCinemaRepository.findAllByUserId(userId);
+        if (userCinemas == null || userCinemas.isEmpty()) {
+            throw new CinemaNotFoundException();
+        }
+
+        return Result.ok().put("data", sessionService.findSessions(userCinemas.get(0).getCinemaId(), null));
+    }
 }

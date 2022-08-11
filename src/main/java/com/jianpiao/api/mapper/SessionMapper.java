@@ -24,6 +24,7 @@ public class SessionMapper {
         SessionResponse sessionResponse = new SessionResponse();
         BeanUtil.copyProperties(session, sessionResponse, CopyOptions.create().setIgnoreNullValue(true));
         sessionResponse.setHallName(session.getHall().getName());
+        sessionResponse.setCinemaName(session.getCinema().getCinemaName());
         return sessionResponse;
     }
 

@@ -33,7 +33,7 @@ public class OrderController {
         if (!StpUtil.isLogin()) {
             throw new NotLoginException("未登录", "", "");
         }
-        if (Objects.isNull(orderRequest.getSeatIndexes()) || orderRequest.getSeatIndexes().size() == 0 || orderRequest.getSeatIndexes().size() > 4) {
+        if (Objects.isNull(orderRequest.getSeatIndexes()) || orderRequest.getSeatIndexes().isEmpty() || orderRequest.getSeatIndexes().size() > 4) {
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
         return Result.ok().put("data", orderMapper.toResponse(orderService.saveOrder(orderRequest.getSessionId(), orderRequest.getSeatIndexes())));

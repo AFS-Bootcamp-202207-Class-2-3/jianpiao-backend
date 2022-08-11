@@ -19,6 +19,8 @@ public class SessionResponse {
 
     private String cinemaId;
 
+    private String cinemaName;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
