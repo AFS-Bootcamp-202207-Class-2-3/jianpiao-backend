@@ -149,19 +149,26 @@ public class FilmService {
 
     public Film createFilmCinema(HashMap params) {
         Film savedFilm = filmRespository.save(JSONUtil.parseObj(params).toBean(Film.class));
-        List<String> cinemaIds = JSONUtil.parseArray(params.get("cinemaIds")).stream()
-                .map(Object::toString)
+
+        // 插入可选影院
+//        List<String> cinemaIds = JSONUtil.parseArray(params.get("cinemaIds")).stream()
+//                .map(Object::toString)
+//                .collect(Collectors.toList());
+
+        // 插入管理的所有影院
+        List<String> cinemaIds = userCinemaRepository.findAllByUserId(StpUtil.getLoginId().toString()).stream()
+                .map(UserCinema::getCinemaId)
                 .collect(Collectors.toList());
 
+//        String status = MapUtil.getStr(params, "status");
+        String status = "showing";
         cinemaIds.forEach(cinemaId->{
             String id = UUID.randomUUID().toString();
-            CinemaFilm cinemaFilm = new CinemaFilm(id, cinemaId, savedFilm.getId(), MapUtil.getStr(params, "status"));
+            CinemaFilm cinemaFilm = new CinemaFilm(id, cinemaId, savedFilm.getId(), status);
             filmCinemaRepository.save(cinemaFilm);
         });
         return savedFilm;
     }
-    
-    // todo
 
     public Film update(Film film) {
         return filmRespository.save(film);
