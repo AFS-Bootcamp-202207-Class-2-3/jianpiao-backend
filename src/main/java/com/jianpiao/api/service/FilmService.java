@@ -22,10 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,16 +79,23 @@ public class FilmService {
     public PageUtils getPageByParams(Map<String, Object> param) {
         PageUtils pageUtils;
         try{
-            String status = param.get("status").toString();
-            int start = Integer.parseInt(param.get("start").toString());
-            int size = Integer.parseInt(param.get("size").toString());
+            String status = param.get("status") == null ? null : param.get("status").toString();
+            int start = param.get("start") == null ? 1 : Integer.parseInt(param.get("start").toString());
+            int size = param.get("size") == null ? 100 : Integer.parseInt(param.get("size").toString());
             Pageable pageable = PageRequest.of(start-1, size);
 
             List<String> manageCinemaIds = getManageCinemasByUserId(StpUtil.getLoginId().toString()).stream()
                     .map(Cinema::getId)
                     .collect(Collectors.toList());
 
-            List<HashMap> data = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, manageCinemaIds, pageable).stream()
+            List<CinemaFilm> cinemaFilms;
+            if(Objects.isNull(status)){
+                cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(manageCinemaIds, pageable);
+            }else {
+                cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, manageCinemaIds, pageable);
+            }
+
+            List<HashMap> data = cinemaFilms.stream()
                     .map(filmCinema -> {
                         Film film = filmRespository.findById(filmCinema.getFilmId()).orElseThrow(FilmNotFoundException::new);
                         HashMap map = JSONUtil.parseObj(film).toBean(HashMap.class);
