@@ -2,6 +2,8 @@ package com.jianpiao.api.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.stp.StpUtil;
 import com.jianpiao.api.mapper.OrderMapper;
 import com.jianpiao.api.model.dto.OrderRequest;
 import com.jianpiao.api.model.dto.Result;
@@ -28,8 +30,10 @@ public class OrderController {
 
 
     @PostMapping
-    @SaCheckLogin
     public Result insertOrder(@RequestBody OrderRequest orderRequest) {
+        if(!StpUtil.isLogin()){
+            throw new NotLoginException("未登录", "", "");
+        }
         if (Objects.isNull(orderRequest.getSeatIndexes()) || orderRequest.getSeatIndexes().size() == 0) {
             return Result.error(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
         }
