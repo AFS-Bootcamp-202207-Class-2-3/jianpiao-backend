@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -126,9 +127,9 @@ public class FilmService {
                 .collect(Collectors.toList());
 
         if(status==""){
-            cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(manageCinemaIds);
+            cinemaFilms = filmCinemaRepository.findAllByCinemaIdIn(Arrays.asList("1"));
         }else {
-            cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, manageCinemaIds);
+            cinemaFilms = filmCinemaRepository.findAllByStatusAndCinemaIdIn(status, Arrays.asList("1"));
         }
         List<HashMap> data = cinemaFilms.stream()
                 .map(filmCinema -> {
