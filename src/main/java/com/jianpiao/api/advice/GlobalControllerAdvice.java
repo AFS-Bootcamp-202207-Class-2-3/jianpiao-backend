@@ -47,7 +47,7 @@ public class GlobalControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ParamNotSatisfiedException.class})
+    @ExceptionHandler({ParamNotSatisfiedException.class, SessionException.class})
     public Result handleParamNotSatisfiedException(Exception exception) {
         return Result.error(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }

@@ -2,6 +2,7 @@ package com.jianpiao.api.service;
 
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.jianpiao.api.exception.SessionException;
 import com.jianpiao.api.exception.SessionNotFoundException;
 import com.jianpiao.api.exception.UnAuthorizedException;
 import com.jianpiao.api.model.entity.Session;
@@ -51,9 +52,44 @@ public class SessionService {
     }
 
     public Session saveSession(Session toSaveSession) {
+        if (toSaveSession.getEndTime().compareTo(toSaveSession.getStartTime()) <= 0) {
+            throw new SessionException(SessionException.END_TIME_LESS_THAN_START_TIME);
+        }
+
+        List<Session> sessions = sessionRepository.findAllByDate(toSaveSession.getDate());
+        if (ifTimeConflict(sessions, toSaveSession)) {
+            throw new SessionException(SessionException.TIME_CONFLICT);
+        }
+
+
         toSaveSession.setId(UUID.randomUUID().toString());
         toSaveSession.setSite(initSite());
         return sessionRepository.save(toSaveSession);
+    }
+
+    private boolean ifTimeConflict(List<Session> sessions, Session toSaveSession) {
+        List<Session> sameCinemaAndHall = sessions.stream()
+                .filter(session -> session.getHall().getId().equals(toSaveSession.getHall().getId()))
+                .filter(session -> session.getCinema().getId().equals(toSaveSession.getCinema().getId()))
+                .collect(Collectors.toList());
+
+        for (Session session : sameCinemaAndHall) {
+            //开始时间相同，冲突
+            if (session.getStartTime().equals(toSaveSession.getStartTime())) {
+                return true;
+            }
+            //开始时间大于已有的开始时间 且 开始时间小于已有的结束时间, 冲突
+            else if (session.getStartTime().compareTo(toSaveSession.getStartTime()) < 0
+                    && session.getEndTime().compareTo(toSaveSession.getStartTime()) > 0) {
+                return true;
+            }
+            //开始时间小于已有的开始时间，且结束时间大于已有的开始时间，冲突
+            else if (toSaveSession.getStartTime().compareTo(session.getStartTime()) < 0
+                    && toSaveSession.getEndTime().compareTo(session.getStartTime()) > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void deleteSession(String sessionId) {

@@ -42,6 +42,8 @@ public class SessionController {
 
     @PostMapping
     public Result insertSession(@RequestBody SessionRequest sessionRequest) {
+
+
         return Result.ok().put("data", sessionMapper.toResponse(
                 sessionService.saveSession(sessionMapper.toEntity(sessionRequest)))
         );

@@ -6,6 +6,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.jianpiao.api.model.dto.SessionRequest;
 import com.jianpiao.api.model.dto.SessionResponse;
 import com.jianpiao.api.model.entity.Cinema;
+import com.jianpiao.api.model.entity.Film;
 import com.jianpiao.api.model.entity.Hall;
 import com.jianpiao.api.model.entity.Session;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,10 @@ public class SessionMapper {
         Cinema cinema = new Cinema();
         cinema.setId(sessionRequest.getCinemaId());
         session.setCinema(cinema);
+
+        Film film = new Film();
+        film.setId(sessionRequest.getFilmId());
+        session.setFilm(film);
 
         return session;
     }
