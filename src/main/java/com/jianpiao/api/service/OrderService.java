@@ -84,7 +84,7 @@ public class OrderService {
 
     private String getCurDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        TimeZone.setDefault(TimeZone.getTimeZone("GTM+8"));
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         return simpleDateFormat.format(date);
