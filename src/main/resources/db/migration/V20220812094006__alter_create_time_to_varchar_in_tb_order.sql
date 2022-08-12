@@ -1,0 +1,1 @@
+alter table public.tb_order alter COLUMN create_time TYPE varchar(255) USING create_time::varchar;

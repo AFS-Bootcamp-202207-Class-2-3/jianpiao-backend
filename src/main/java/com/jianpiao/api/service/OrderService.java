@@ -16,13 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -45,17 +41,17 @@ public class OrderService {
     }
 
     @Transactional
-    public Order saveOrder(String sessionId, List<Integer> seatIndexes) {
+    public synchronized Order saveOrder(String sessionId, List<Integer> seatIndexes) {
         Session session = sessionRepository.findById(sessionId).orElseThrow(SessionNotFoundException::new);
         Film film = filmRepository.findById(session.getFilm().getId()).orElseThrow(FilmNotFoundException::new);
         String hallName = session.getHall().getName();
         Cinema cinema = session.getCinema();
 
         Map<String, Object> map = getTicketMap(seatIndexes, session, film, hallName, cinema);
-        Date createTime = getCurDate();
+        String createTime = getCurDate();
 
         Order order = new Order(UUID.randomUUID().toString(),
-                StpUtil.getLoginId().toString(), JSONUtil.parse(map).toString(), createTime, String.valueOf(createTime.getTime()));
+                StpUtil.getLoginId().toString(), JSONUtil.parse(map).toString(), createTime, String.valueOf(new Date().getTime()));
 
 
         sessionRepository.save(session);
@@ -84,7 +80,8 @@ public class OrderService {
         return decimalFormat.format(price * size);
     }
 
-    private Date getCurDate() {
-        return Date.valueOf(LocalDate.now());
+    private String getCurDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(new Date());
     }
 }
