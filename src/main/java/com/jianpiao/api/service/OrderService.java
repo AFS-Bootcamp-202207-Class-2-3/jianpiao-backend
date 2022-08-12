@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -83,10 +83,7 @@ public class OrderService {
     }
 
     private String getCurDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
-        return simpleDateFormat.format(date);
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("GMT+8"));
+        return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
