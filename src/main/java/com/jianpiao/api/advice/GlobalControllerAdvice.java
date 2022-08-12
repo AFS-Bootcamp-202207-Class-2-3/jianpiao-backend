@@ -19,7 +19,7 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({NotLoginException.class})
     public Result handleNotLoginException(Exception exception) {
-        return Result.error(HttpStatus.UNAUTHORIZED.value(), "未登录");
+        return Result.error(HttpStatus.UNAUTHORIZED.value(), "请登录");
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
