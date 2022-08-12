@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -82,6 +84,8 @@ public class OrderService {
 
     private String getCurDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        TimeZone timeZone = TimeZone.getTimeZone("GTM+8");
+        TimeZone.setDefault(timeZone);
         return simpleDateFormat.format(new Date());
     }
 }
